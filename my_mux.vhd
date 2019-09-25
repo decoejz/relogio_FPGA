@@ -10,10 +10,10 @@ entity my_mux is
 	-- A resposta é dada por Y.
    port
     (
-       A : in std_logic_vector(DATA_WIDTH-1 downto 0),
-		 B : in std_logic_vector(DATA_WIDTH-1 downto 0),
+       A : in std_logic_vector(DATA_WIDTH-1 downto 0);
+		 B : in std_logic_vector(DATA_WIDTH-1 downto 0);
 		 
-		 sel : in std_logic,
+		 sel : in std_logic;
 		 
 		 Y : out std_logic_vector(DATA_WIDTH-1 downto 0)
     );
@@ -25,6 +25,7 @@ architecture muxArc of my_mux is
 begin
     
 	process(A,B,sel)
+	begin
 		-- Caso o seletor seja 0, os dados escolhidos serão o A.
 		-- Caso o seletor seja 1, os dados escolhidos serão o B.
 		case sel is
