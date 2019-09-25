@@ -2,18 +2,17 @@
 library IEEE;
 use ieee.std_logic_1164.all;
 
-entity relogio is
+entity my_somador is
     port
     (
        A : in std_logic
     );
 end entity;
 
-architecture relogioArc of relogio is
+architecture somadorArc of my_somador is
 
 
 begin
-    
-	 
-	 
+
+	
 end architecture;

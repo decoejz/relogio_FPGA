@@ -15,15 +15,13 @@ use ieee.numeric_std.all;
 
 
 entity my_ula is
-	Generic ( DATA_WIDTH : natural := 8 );
-	
 	port
 	(
-		A : in std_logic_vector (DATA_WIDTH-1 downto 0);
-		B : in std_logic_vector (DATA_WIDTH-1 downto 0);
-		func : in std_logic_vector (1 downto 0);
+		A : in std_logic_vector (3 downto 0);
+		B : in std_logic_vector (3 downto 0);
+		func : in std_logic_vector (3 downto 0);
 		
-		Y : out std_logic_vector (DATA_WIDTH-1 downto 0);
+		Y : out std_logic_vector (3 downto 0);
 		Z : out std_logic
 	);
 end my_ula;
@@ -40,15 +38,14 @@ begin
 	process(A,B,func)
 	begin
 		-- Add if "add_sub" is 1, else subtract
-		if (func = "00") then
+		if (func = "0000") then
 			Y <= std_logic_vector(unsigned(A) + unsigned(B));
-		
-		--elsif (func = "0001") then
-		--	if (A > B) then
-		--		Z <= '1';
-		--	else 
-		--		Z <= '0';
-		--	end if;
+		elsif (func = "0001") then
+			if (A > B) then
+				Z <= '1';
+			else 
+				Z <= '0';
+			end if;
 		
 		end if;
 	end process;
