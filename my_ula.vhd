@@ -68,6 +68,10 @@ begin
 			-- Transforma os std_logic_vector em inteiros positivos e subtrai.
 			-- Transforma de volta a resposta para std_logic_vector
 			Y <= std_logic_vector(unsigned(A) - unsigned(b));
+			
+		-- Retorna o valor de A, sem fazer nenhum tipo de operacao
+		elsif (func = "11") then
+			Y <= A;
 		
 		end if;
 	end process;
