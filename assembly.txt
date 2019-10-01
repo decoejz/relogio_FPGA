@@ -1,0 +1,125 @@
+-- Registradores:
+-- 1 - US
+-- 2 - DS
+-- 3 - UM
+-- 4 - DM
+-- 5 - UH12
+-- 6 - DH12
+-- 7 - UH24
+-- 8 - DH24
+-- 9 - AMPM
+-- 10 - BTS
+-- 11 - BTMS
+-- 12 - JLER
+
+-- Endereços:
+-- 00 - 7NADA
+-- 01 - 7NADA
+-- 02 - 7US
+-- 03 - 7DS
+-- 04 - 7UM
+-- 05 - 7DM
+-- 06 - 7UH
+-- 07 - 7DH
+------------------
+-- 08 - SWH
+-- 09 - SWM
+-- 0A - SWS
+-- 0B - SWBT
+-- 0C - SW2412
+-- 0D - SWNADA
+------------------
+-- 0E - KEYU
+-- 0F - KEYD
+-----------------
+-- 10
+
+SETUP:
+    LEAi US, 0
+    LEAi DS, 0
+    LEAi UM, 0
+    LEAi DM, 0
+    LEAi UH12, 2
+    LEAi DH12, 0
+    LEAi UH24, 1
+    LEAi DH24, 0
+    LEAi AMPM, 0
+    LEAi BTS, 10
+    LEAi BTMS, 1
+
+LOOP:
+    
+
+TEMPO:
+    ADDi US, US, 1
+    CMPi US, JLER, 1
+    JLE CDS
+    LEAi US, 0
+    ADDi DS, DS, 1
+CDS:
+    CMPi DS, JLER, 5
+    JLE CUM
+    LEAi DS, 0
+    ADDi UM, UM, 1d
+CUM:
+    CMPi UM, JLER, 9
+    JLE CDM
+    LEAi UM, 1
+    ADDi DM, DM, 1
+CDM:
+    CMPi DM, JLER, 5
+    JLE CUH12
+    LEAi DM, 0
+    ADDi UH12, UH12, 1
+    ADDi UH12, UH24, 1
+CUH12:
+    CMPi UH12, JLER, 2
+    JLE CUH24
+    CMPi DH12, JLER, 0
+    JLE CUH12C9
+    LEAi UH12, 1
+    LEAi DH12, 0
+CUH12C9:
+    CMPi UH12, JLER, 9
+    JLE CUH24
+    LEAi UH12, 0
+    ADDi DH12, DH12, 1
+CUH24:
+    CMPi UH24, JLER, 3
+    JLE CDH24
+    CMPi DH24, JLER, 1
+    JLE UH24C9
+    LEAi UH24, 1
+    ADDi DH24, DH24, 1
+UH24C9:
+    CMPi UH24, JLER, 9
+    JLE CDH24
+    LEAi UH24, 0
+    ADDi DH24, DH24, 1
+CDH24:
+    CMPi DH24, JLER, 2
+    JLE LOOP
+    LEAi DH24, 0
+    JLE LOOP
+
+24h:
+    LOAD US, 7s2
+    LOAD DS, 7s3
+    LOAD UM, 7s4
+    LOAD DM, 7s5
+    LOAD UH24, 7s6
+    LOAD DH24, 7s7
+    JMP TEMPO
+
+12h:
+    LOAD US, 7s2
+    LOAD DS, 7s3
+    LOAD UM, 7s4
+    LOAD DM, 7s5
+    LOAD UH12, 7s6
+    LOAD DH12, 7s7
+    JMP TEMPO
+
+CONFIGHORA:
+CONFIGMIN:
+CONFIGSEG:
