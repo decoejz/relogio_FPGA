@@ -2,7 +2,7 @@
 library IEEE;
 use ieee.std_logic_1164.all;
 
-entity conversorHex7seg is
+entity my_conversor7seg is
     port
     (
         -- Input ports
@@ -20,7 +20,7 @@ entity conversorHex7seg is
     );
 end entity;
 
-architecture comportamento of conversorHex7seg is
+architecture comportamento of my_conversor7seg is
    --
    --       0
    --      ---

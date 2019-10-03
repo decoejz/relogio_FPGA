@@ -38,7 +38,7 @@ architecture keyArch of my_key is
 	
 begin
 	
-	sig_key <= ((others=>'0') OR key_in);
+	sig_key <= ( std_logic_vector(to_unsigned(0, key_out'length - key_in'length)) & key_in);
 	
 	key_out <= sig_key when (enable = '1') else (others=>'Z');
 	

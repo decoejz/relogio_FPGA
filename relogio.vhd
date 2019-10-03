@@ -28,7 +28,7 @@ architecture relogioArc of relogio is
 
 begin
     
-	 CPU: entity work.my_pc
+	 CPU: entity work.my_processador
 		Port Map(
 			data_in => sig_data_in,
 			ROM_in => sig_rom_in,
@@ -84,17 +84,17 @@ begin
 		Port Map(
 			clk => clk,
 			sw_in => SW(17),
-			enable sig_ebt,
+			enable => sig_ebt,
 			saida_clk => sig_data_in
 		);
 		
 	ROM: entity work.my_memoryROM
 		Generic Map(
-        dataWidth => 25;
+        dataWidth => 25,
         addrWidth => 10
 		)
 		Port Map(
-			Endereco sig_rom_out,
+			Endereco => sig_rom_out,
 			Dado => sig_rom_in
 		);
 	

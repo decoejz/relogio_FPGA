@@ -38,7 +38,7 @@ architecture swArch of my_sw is
 	
 begin
 	
-	sig_sw <= ((others=>'0') OR sw_in);
+	sig_sw <= ( std_logic_vector(to_unsigned(0, sw_out'length - sw_in'length)) & sw_in);
 	
 	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
 	
