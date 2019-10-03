@@ -15,16 +15,12 @@ architecture divInteiro of my_base_tempo is
     signal tick : std_logic := '0';
     signal divisor : natural := 50000000;
     signal contador : integer range 0 to 100000000 := 0;
-begin    
+begin
+    -- sw seleciona o divisor
+	 divisor <= 50000000 when SW(17)='1' else 100000000;
     process(clk)
     begin
         if rising_edge(clk) then
-            -- checa unidade de tempo
-            if SW(17)='1' then
-                divisor <= 50000000;
-            else
-                divisor <= 100000000;
-            end if;
             -- contador e comparador
             if contador = divisor then
                 contador <= 0;
