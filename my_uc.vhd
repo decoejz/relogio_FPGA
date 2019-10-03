@@ -14,16 +14,17 @@ entity my_uc is
 		 muxRegUla : out std_logic; -- MUX que define se o dado que entra na ULA vem do imediato ou registrador
 		 funcUla : out std_logic_vector(2 downto 0); -- Funcao que a ULA deve fazer
 		 muxRegSai : out std_logic; -- MUX que define para onde vai o resultado da ULA
-		 weBC : out std_logic -- Habilita ou desabilita a escrita no banco de registradores
+		 weBC : out std_logic; -- Habilita ou desabilita a escrita no banco de registradores
+		 readEnable : out std_logic; -- Habilita o read do decoder
+		 writeEnable : out std_logic -- Habilita o write do decoder
     );
 end entity;
 
 architecture ucArc of my_uc is
-
-
+	
 begin
 
-	process(opcode)
+	process(opcode, jle, je, jbe)
 	begin
 		
 		-- ADD R1, R2, R3
@@ -33,6 +34,8 @@ begin
 			funcUla <= "000";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
+			writeEnable <= '0';
 		 
 		-- ADDi R1, R2 Imediato
 		elsif (opcode = "00001") then
@@ -41,6 +44,8 @@ begin
 			funcUla <= "000";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
+			writeEnable <= '0';
 		
 		-- LOAD R, End
 		elsif (opcode = "00010") then
@@ -49,6 +54,8 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '0';
 			weBC <= '0';
+			readEnable <= '0';
+			writeEnable <= '1';
 		
 		-- JMP Imediato
 		elsif (opcode = "00011") then
@@ -57,6 +64,8 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '1';
 			weBC <= '0';
+			readEnable <= '0';
+			writeEnable <= '0';
 		
 		-- CMPi R1, R2, Imediato
 		elsif (opcode = "00100") then
@@ -65,6 +74,8 @@ begin
 			funcUla <= "001";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
+			writeEnable <= '0';
 		
 		-- Lea End, R
 		elsif (opcode = "00101") then
@@ -73,6 +84,8 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '0';
 			weBC <= '1';
+			readEnable <= '1';
+			writeEnable <= '0';
 		
 		-- JLE Imediato
 		-- A CMPi devolve uma flag dizendo se é maior ou nao,
@@ -83,6 +96,8 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '0';
 			weBC <= '0';
+			readEnable <= '0';
+			writeEnable <= '0';
 		
 		-- LEAi R, Imediato
 		-- Salva o valor imediato no registrador R
@@ -92,6 +107,7 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
 			
 		-- JE Imediato
 		-- Pula baseado na flag indicando se o valor é igual
@@ -101,6 +117,8 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '0';
 			weBC <= '0';
+			readEnable <= '0';
+			writeEnable <= '0';
 			
 		-- JBE Imediato
 		-- Pula baseado na flag indicando se o valor é igual
@@ -110,6 +128,7 @@ begin
 			funcUla <= "011";
 			muxRegSai <= '0';
 			weBC <= '0';
+			readEnable <= '0';
 			
 		-- CMPe R1, R2, Imediato
 		-- R2 = se(R1 = imediato)
@@ -119,6 +138,8 @@ begin
 			funcUla <= "100";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
+			writeEnable <= '0';
 			
 		-- CMPle R1, R2, Imediato
 		-- R2 = se(R1 < imediato)
@@ -128,6 +149,8 @@ begin
 			funcUla <= "101";
 			muxRegSai <= '1';
 			weBC <= '1';
+			readEnable <= '0';
+			writeEnable <= '0';
 		
 			end if;
 	end process;

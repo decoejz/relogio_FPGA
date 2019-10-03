@@ -19,7 +19,9 @@ entity my_processador is
 			
 			ROM_out : out std_logic_vector(DATA_PC_SIZE-1 downto 0);
 			data_out : out std_logic_vector(DATA_WIDTH-1 downto 0);
-			addr : out std_logic_vector(ADD_OUT_SIZE-1 downto 0)
+			addr : out std_logic_vector(ADD_OUT_SIZE-1 downto 0);
+			readEnableDecoder : out std_logic;
+			writeEnableDecoder : out std_logic
 		);
 end entity;
 
@@ -42,7 +44,9 @@ begin
 				muxRegUla => sig_mux_reg_ula,
 				funcUla => sig_func_ula,
 				muxRegSai => sig_mux_reg_sai,
-				weBC => sig_we);
+				weBC => sig_we,
+				readEnable => readEnableDecoder,
+				writeEnable => writeEnableDecoder);
 				
 		-- Port map do program counter
 		-- O valor de imediato, caso seja utilizado sera de 9 bits
