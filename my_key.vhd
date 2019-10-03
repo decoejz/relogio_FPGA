@@ -22,7 +22,7 @@ entity my_key is
 	
 	port
 	(
-		KEY : in std_logic_vector(TOTAL_KEY-1 downto 0);
+		key_in : in std_logic_vector(TOTAL_KEY-1 downto 0);
 		enable : in std_logic;
 		
 		key_out : out std_logic_vector(DATA_SIZE-1 downto 0)
@@ -38,7 +38,7 @@ architecture keyArch of my_key is
 	
 begin
 	
-	sig_key <= ((others=>'0') OR KEY);
+	sig_key <= ((others=>'0') OR key_in);
 	
 	key_out <= sig_key when (enable = '1') else (others=>'Z');
 	

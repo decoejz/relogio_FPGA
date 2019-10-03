@@ -77,7 +77,7 @@ begin
 			readEnable <= '0';
 			writeEnable <= '0';
 		
-		-- Lea End, R
+		-- LEA End, R
 		elsif (opcode = "00101") then
 			muxPc <= '0';
 			muxRegUla <= '0';

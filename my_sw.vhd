@@ -22,7 +22,7 @@ entity my_sw is
 	
 	port
 	(
-		SW : in std_logic_vector(TOTAL_SW-1 downto 0);
+		sw_in : in std_logic_vector(TOTAL_SW-1 downto 0);
 		enable : in std_logic;
 		
 		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0)
@@ -38,7 +38,7 @@ architecture swArch of my_sw is
 	
 begin
 	
-	sig_sw <= ((others=>'0') OR SW);
+	sig_sw <= ((others=>'0') OR sw_in);
 	
 	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
 	
