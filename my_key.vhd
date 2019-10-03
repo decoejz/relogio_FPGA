@@ -14,35 +14,35 @@ use ieee.numeric_std.all;
 
 
 
-entity my_sw is
+entity my_key is
 	Generic ( 
-		TOTAL_SW : natural := 3;
+		TOTAL_KEY : natural := 2;
 		DATA_SIZE : natural := 8
 	);
 	
 	port
 	(
-		SW : in std_logic_vector(TOTAL_SW-1 downto 0);
+		KEY : in std_logic_vector(TOTAL_KEY-1 downto 0);
 		enable : in std_logic;
 		
-		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0)
+		key_out : out std_logic_vector(DATA_SIZE-1 downto 0)
 	);
-end my_sw;
+end my_key;
 
 
 -- Library Clause(s) (optional)
 -- Use Clause(s) (optional)
-architecture swArch of my_sw is
+architecture keyArch of my_key is
 
-	signal sig_sw : std_logic_vector(DATA_SIZE-1 downto 0);
+	signal sig_key : std_logic_vector(DATA_SIZE-1 downto 0);
 	
 begin
 	
-	sig_sw <= ((others=>'0') OR SW);
+	sig_key <= ((others=>'0') OR KEY);
 	
-	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
+	key_out <= sig_key when (enable = '1') else (others=>'Z');
 	
-end swArch;
+end keyArch;
 
 
 

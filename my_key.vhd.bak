@@ -16,8 +16,7 @@ use ieee.numeric_std.all;
 
 entity my_sw is
 	Generic ( 
-		TOTAL_SW : natural := 3;
-		DATA_SIZE : natural := 8
+		TOTAL_SW : natural := 3
 	);
 	
 	port
@@ -25,7 +24,7 @@ entity my_sw is
 		SW : in std_logic_vector(TOTAL_SW-1 downto 0);
 		enable : in std_logic;
 		
-		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0)
+		sw_out : out std_logic_vector(TOTAL_SW-1 downto 0)
 	);
 end my_sw;
 
@@ -34,11 +33,11 @@ end my_sw;
 -- Use Clause(s) (optional)
 architecture swArch of my_sw is
 
-	signal sig_sw : std_logic_vector(DATA_SIZE-1 downto 0);
+	signal sig_sw : std_logic_vector(TOTAL_SW-1 downto 0);
 	
 begin
 	
-	sig_sw <= ((others=>'0') OR SW);
+	sig_sw <= (others=>'0') & sw;
 	
 	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
 	

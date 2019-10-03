@@ -45,9 +45,9 @@ architecture ulaArch of my_ula is
 	
 begin
 
-	maior_que <= '1' when (A>B) else '0'; -- Compara se A > B
-	igual_que <= '1' when (to_integer(unsigned(A AND B)) > 0) else '0'; -- Compara se um botao esta ativado ou nao
-	menor_que <= '1' when (A<B) else '0'; -- Compara se A < B
+	maior_que <= '1' when (A>B) else '0';
+	igual_que <= '1' when (A=B) else '0';
+	menor_que <= '1' when (A<B) else '0';
 	
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when "000",

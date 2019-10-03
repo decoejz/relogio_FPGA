@@ -23,17 +23,18 @@
 ; 06 - 7UH
 ; 07 - 7DH
 ;----------------
-; 08 - SWH
-; 09 - SWM
-; 0A - SW2412
-; 0B - SWNADA
+; 08 - SWs
+;  - SWH
+;  - SWM
+;  - SW2412
 ;----------------
-; 0C - KEYU
-; 0D - KEYD
+; 09 - KEYs
+;  - KEYU
+;  - KEYD
 ;---------------
-; 0E - Base tempo
+; 0A - BaseTempo
 ;-----------------
-; 0F:FF - Reservado
+; 0B:FF - Reservado
 SETUP:
     LEAi US, 0
     LEAi DS, 0
@@ -44,15 +45,21 @@ SETUP:
     LEAi UH24, 1
     LEAi DH24, 0
     LEAi AMPM, 0
+    JMP COMECA
 LOOP:
-    LEA SWH, IOSR
+	LEA BaseTempo, IOSR
+	CMPe IOSR, JER, 1
+	JE COMECA
+	JMP LOOP
+COMECA:
+    LEA SWs, IOSR
     CMPe IOSR, JER, 1
     JE CONFIGHORA
-    LEA SWM, IOSR
-    CMPe IOSR, JER, 1
+    LEA SWs, IOSR
+    CMPe IOSR, JER, 2
     JE CONFIGMIN
-    LEA SW2412, IOSR
-    CMPe IOSR, JER, 1
+    LEA SWs, IOSR
+    CMPe IOSR, JER, 4
     JE 24h
     JMP 12h
 TEMPO:
@@ -123,7 +130,7 @@ CDH24:
     LOAD DH12, 7s7
     JMP TEMPO
 CONFIGHORA:
-    LEA KEYU, IOSR
+    LEA KEYs, IOSR
     CMPe IOSR, JE, 1
     JE PROCUH
     JMP CHECKUP2UH
@@ -138,8 +145,8 @@ AJUSTAH24:
     JLE CHECKUP2UH
     LEAi UH24, 0
 CHECKUP2UH:
-    LEA KEYD, IOSR
-    CMPe IOSR, JE, 1
+    LEA KEYs, IOSR
+    CMPe IOSR, JE, 2
     JE AJUSTADH2412
     JMP LOOP
 AJUSTADH2412:
@@ -153,8 +160,8 @@ AJUSTAD24H:
     JLE ENVIAUP7SEG
     LEAi DH24, 0
 ENVIAUP7SEG:
-    LEA SW2412, IOSR
-    CMPe IOSR, JER, 1
+    LEA SWs, IOSR
+    CMPe IOSR, JER, 4
     JE ENVIA24H7SEG
     LOAD UH12, 7s6
     LOAD DH12, 7s7
@@ -164,12 +171,12 @@ ENVIA24H7SEG:
     LOAD DH24, 7s7
     JMP LOOP
 CONFIGMIN:
-    LEA KEYU, IOSR
+    LEA KEYs, IOSR
     CMPe IOSR, JE, 1
     JE AJUSTAMD
 VOLTARCHECKDM:
-    LEA KEYD, IOSR
-    CMPe IOSR, JE, 1
+    LEA KEYs, IOSR
+    CMPe IOSR, JE, 2
     JE AJUSTAMU
     JMP LOOP
 AJUSTAMD:
