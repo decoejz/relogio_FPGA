@@ -6,15 +6,20 @@ entity relogio is
 	Generic ( 
 		TOTAL_SW : natural := 3;
 		TOTAL_KEY : natural := 2;
-		DATA_WIDTH : natural := 8
+		DATA_WIDTH : natural := 8;
+		divisor : natural := 50000
 	);
 	port
 	(
-		clk : in std_logic;
+		CLOCK_50 : in std_logic;
 		SW : in std_logic_vector(17 downto 0);
 		KEY : in std_logic_vector(3 downto 0);
 		
-		HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7 : OUT STD_LOGIC_VECTOR(6 downto 0)		
+	HEX0, HEX1, HEX2, HEX3, HEX4, HEX5, HEX6, HEX7 : OUT STD_LOGIC_VECTOR(6 downto 0);
+
+LEDG : out std_logic_vector(7 downto 0)
+	
+		
 	);
 end entity;
 
@@ -26,13 +31,34 @@ architecture relogioArc of relogio is
 	signal sig_add : std_logic_vector(7 downto 0);
 	signal sig_red, sig_wed, sig_es70, sig_es71, sig_es72, sig_es73, sig_es74, sig_es75, sig_es76, sig_es77, sig_sesw, sig_ekey, sig_ebt : std_logic;
 
-begin
+
+
+signal tick : std_logic := '0';
+        signal contador : integer range 0 to divisor := 0;
+
+		  
+begin		  
+		  
+	process(CLOCK_50)
+        begin
+            if rising_edge(CLOCK_50) then
+                if contador = divisor then
+                    contador <= 0;
+                    tick <= not tick;
+                else
+                    contador <= contador + 1;
+                end if;
+            end if;
+        end process;
+    --saida_clk <= tick;
     
+	 LEDG <= sig_rom_out(7 downto 0);
+	 
 	 CPU: entity work.my_processador
 		Port Map(
 			data_in => sig_data_in,
 			ROM_in => sig_rom_in,
-			clk => clk,
+			clk => tick,
 			ROM_out => sig_rom_out,
 			data_out => sig_data_out,
 			addr => sig_add,
@@ -82,7 +108,7 @@ begin
 	
 	BT_MAP: entity work.my_base_tempo
 		Port Map(
-			clk => clk,
+			clk => tick,
 			sw_in => SW(17),
 			enable => sig_ebt,
 			saida_clk => sig_data_in
@@ -99,27 +125,27 @@ begin
 		);
 	
 	DISPLAY0: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX0, dadoHex => sig_data_out(3 downto 0), enable => sig_es70, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX0, dadoHex => sig_data_out(3 downto 0), enable => sig_es70);
 	
 	DISPLAY1: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX1, dadoHex => sig_data_out(3 downto 0), enable => sig_es71, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX1, dadoHex => sig_data_out(3 downto 0), enable => sig_es71);
 		
 	DISPLAY2: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX2, dadoHex => sig_data_out(3 downto 0), enable => sig_es72, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX2, dadoHex => sig_data_out(3 downto 0), enable => sig_es72);
 		
 	DISPLAY3: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX3, dadoHex => sig_data_out(3 downto 0), enable => sig_es73, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX3, dadoHex => sig_data_out(3 downto 0), enable => sig_es73);
 		
 	DISPLAY4: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX4, dadoHex => sig_data_out(3 downto 0), enable => sig_es74, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX4, dadoHex => sig_data_out(3 downto 0), enable => sig_es74);
 		
 	DISPLAY5: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX5, dadoHex => sig_data_out(3 downto 0), enable => sig_es75, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX5, dadoHex => sig_data_out(3 downto 0), enable => sig_es75);
 		
 	DISPLAY6: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX6, dadoHex => sig_data_out(3 downto 0), enable => sig_es76, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX6, dadoHex => sig_data_out(3 downto 0), enable => sig_es76);
 		
 	DISPLAY7: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX7, dadoHex => sig_data_out(3 downto 0), enable => sig_es77, apaga => '0', overFlow => '0', negativo => '0');
+		Port Map(saida7seg => HEX7, dadoHex => sig_data_out(3 downto 0), enable => sig_es77);
 	
 end architecture;

@@ -11,9 +11,9 @@ entity my_conversor7seg is
 		  
 		  enable : in std_logic;
         -- Valores condicionais sem ser do relógio
-        apaga    : in  std_logic := '0';
-        negativo : in  std_logic := '0';
-        overFlow : in  std_logic := '0';
+       -- apaga    : in  std_logic := '0';
+       -- negativo : in  std_logic := '0';
+       -- overFlow : in  std_logic := '0';
         -- Output ports
         -- Desenho do display em bits
         saida7seg : out std_logic_vector(6 downto 0) 
@@ -53,8 +53,5 @@ begin
 									 
                             "1111111"; -- Apaga todos segmentos.
 
-    saida7seg <=     		"1100010" when (overFlow='1') else
-                            "1111111" when (apaga='1' and negativo='0') else
-                            "0111111" when (apaga='0' and negativo='1') else
-									 rascSaida7seg;
+    saida7seg <=     	rascSaida7seg;
 end architecture;

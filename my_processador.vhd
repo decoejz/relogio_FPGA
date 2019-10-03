@@ -27,11 +27,12 @@ end entity;
 
 architecture processadorArc of my_processador is
 
-	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to, sig_less_than : std_logic;
+	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to, sig_less_than, sig_mux_reg_escrita : std_logic;
 	signal sig_func_ula : std_logic_vector(2 downto 0);
 	signal sig_pc : std_logic_vector(DATA_PC_SIZE-1 downto 0);
 	signal sig_data_a_br, sig_data_b_br, sig_saida_mux_reg_ula, sig_saida_mux_ula_in, sig_saida_ula : std_logic_vector(DATA_WIDTH-1 downto 0);
-
+	signal sig_reg_escrita : std_logic_vector(4 downto 0);
+	
 begin
 
 		UC: entity work.my_uc
@@ -46,7 +47,8 @@ begin
 				muxRegSai => sig_mux_reg_sai,
 				weBC => sig_we,
 				readEnable => readEnableDecoder,
-				writeEnable => writeEnableDecoder);
+				writeEnable => writeEnableDecoder,
+				muxRegEsc => sig_mux_reg_escrita);
 				
 		-- Port map do program counter
 		-- O valor de imediato, caso seja utilizado sera de 9 bits
@@ -72,12 +74,20 @@ begin
 				clk => clk,
 				enderecoA => ROM_in(19 downto 15),
 				enderecoB => ROM_in(14 downto 10),
-				enderecoEscrita => ROM_in(9 downto 5),
+				enderecoEscrita => sig_reg_escrita,
 				dadosEscrita => sig_saida_mux_ula_in,
 				we => sig_we,
 				saidaA => sig_data_b_br,
 				saidaB => sig_data_a_br);
-				
+		
+		MUX_ULA_REG_ESC: entity work.my_mux
+			Generic Map(DATA_WIDTH=>5)
+			Port Map(
+				A => ROM_in(9 downto 5),
+				B => ROM_in(14 downto 10),
+				sel => sig_mux_reg_escrita,
+				Y => sig_reg_escrita);
+		
 		MUX_ULA_IN: entity work.my_mux
 			Generic Map(DATA_WIDTH=>DATA_WIDTH)
 			Port Map(
