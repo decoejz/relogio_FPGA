@@ -6,6 +6,7 @@ use ieee.numeric_std.all;
 entity my_processador is
 	Generic ( DATA_WIDTH : natural := 8;
 				 ADD_SIZE: natural := 5;
+				 ADD_OUT_SIZE: natural := 8;
 				 DATA_PC_SIZE : natural := 10);
 	
 	port
@@ -18,7 +19,7 @@ entity my_processador is
 			
 			ROM_out : out std_logic_vector(DATA_PC_SIZE-1 downto 0);
 			data_out : out std_logic_vector(DATA_WIDTH-1 downto 0);
-			addr : out std_logic_vector(ADD_SIZE-1 downto 0)
+			addr : out std_logic_vector(ADD_OUT_SIZE-1 downto 0)
 		);
 end entity;
 
@@ -98,7 +99,7 @@ begin
 					
 			ROM_out <= sig_pc;
 			data_out <= sig_saida_ula;
-			addr <= ROM_in(4 downto 0);
+			addr <= ROM_in(ADD_OUT_SIZE-1 downto 0);
 			
 		end if;
 	end process;
