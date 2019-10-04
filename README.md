@@ -1,3 +1,11 @@
+
+# FALTA FAZER
+
+- referenciar assembly
+
+- listar comandos e explicar endereçamentos
+
+
 # Relogio na FPGA
 
 - André Ejzenmesser, Gabriel Monteiro, Vitor Satyro
@@ -43,10 +51,6 @@ Os perífecos do relógio são:
 ## Assembler
 
 Esse projeto também conta com um assembler em python que converte o código assembly de um arquivo .asm para linguagem de máquina de um arquivo .mif que pode ser carregado diretamente na placa FPGA. Esse assembler foi adaptado de um assembler para um processador MIPS feito pelo professor Eduardo Marossi.
-
-
-
-
 
 
 
