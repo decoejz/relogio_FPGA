@@ -1,6 +1,6 @@
 # Relogio na FPGA
 
-- André , Gabriel Monteiro, Vitor Satyro
+- André Ejzenmesser, Gabriel Monteiro, Vitor Satyro
 
 ## Introdução
 
