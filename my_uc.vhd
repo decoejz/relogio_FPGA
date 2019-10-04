@@ -27,7 +27,7 @@ architecture ucArc of my_uc is
 constant ADD : std_logic_vector(4 downto 0) := "00000";
 
 --ADDi R1, R2 Imediato : R2=R1+Imediato
-constant ADDi : std_logic_vector(4 downto 0) := "00001"
+constant ADDi : std_logic_vector(4 downto 0) := "00001";
 
 --LOAD R, End : Move o que esta em R para o End
 constant LOAD : std_logic_vector(4 downto 0) := "00010";
