@@ -67,9 +67,9 @@ class Line_Assemble:
             if instruct == 'LOAD':
                 output = self.get_r_funct(instruct) + self.get_register(args[0]) + '0000000' + self.get_end(args[1])
             else:
-                output = self.get_r_funct(instruct) + self.get_register(args[1]) + '0000000' + self.get_end(args[0])
+                output = self.get_r_funct(instruct) + '00000' + self.get_register(args[1]) + '00' + self.get_end(args[0])
         elif self.get_instruction_type() == 'i' and len(args) == 2:
-            output = self.get_i_instruction(instruct) + self.get_register(args[0]) + '0000000' + self.get_immediate(args[1])
+            output = self.get_i_instruction(instruct) + '00000' + self.get_register(args[0]) + '00' + self.get_immediate(args[1])
         elif self.get_instruction_type() == 'i' and len(args) == 3:
                 output = self.get_i_instruction(instruct) + self.get_register(args[0]) + self.get_register(args[1]) + '00' + self.get_immediate(args[2])
         elif self.get_instruction_type() == 'j':
