@@ -1,0 +1,28 @@
+COMECO:
+    LEAi DS, 0
+ASDA:
+    LEAi UM, 1
+    LEAi DM, 2
+    LEAi UH12, 3
+    LEAi DH12, 4
+    LEAi UH24, 5
+    LEAi DH24, 6
+    LEAi AMPM, 7
+    LOAD DS, 7NADA
+    LOAD UM, 7AMPM
+    LOAD DM, 7US
+    LOAD UH12, 7DS
+    LOAD DH12, 7UM
+    LOAD UH24, 7DM
+    LOAD DH24, 7UH
+    LOAD AMPM, 7DH
+    LEAi IOSR, 1
+    LOAD IOSR, BaseTempo
+BREQ:
+    LEA BaseTempo, IOSR
+    CMPe JER, IOSR, 1
+    JE ADI
+    JMP BREQ
+ADI: 
+    ADDi DS, DS, 1
+    JMP ASDA
