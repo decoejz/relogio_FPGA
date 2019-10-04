@@ -24,16 +24,7 @@ architecture muxArc of my_mux is
 
 begin
     
-	process(A,B,sel)
-	begin
-		-- Caso o seletor seja 0, os dados escolhidos serão o A.
-		-- Caso o seletor seja 1, os dados escolhidos serão o B.
-		case sel is
-			when '0' =>
-				Y <= A;
-			when '1' =>
-				Y <= B;
-		end case;
-	end process;
+	 Y <= A when sel='0' else
+			B;
 	 
 end architecture;

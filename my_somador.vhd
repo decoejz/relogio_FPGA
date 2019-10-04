@@ -23,14 +23,10 @@ architecture somadorArc of my_somador is
 
 begin
 
-	process(clk)
-	begin
-		if (rising_edge(clk)) then
 			-- Soma A + 1 e o resultado é armazenado em Y.
 			-- Transforma os std_logic_vector em inteiros positivos e soma.
 			-- Transforma de volta a resposta para std_logic_vector
 			Y <= std_logic_vector(unsigned(A) + increment);
-		end if;
-	end process;
+
 	
 end architecture;

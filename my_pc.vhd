@@ -23,6 +23,9 @@ architecture pcArc of my_pc is
 
 begin
 
+
+sig_in_soma <= instr;
+
 	SOMADOR: entity work.my_somador
 	  Generic Map(DATA_WIDTH=>DATA_PC_SIZE)
 	  Port Map(A=>sig_in_soma,clk=>clk,Y=>sig_somador);
@@ -36,10 +39,10 @@ begin
 		 if (rising_edge(clk)) then
 			  
 			  instr <= sig_out_mux;
-			  sig_in_soma <= sig_out_mux;
+			 
 			
 		 end if;
 	  end process;
 
-
+ --sig_in_soma <= sig_out_mux;
 end architecture;

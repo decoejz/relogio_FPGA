@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity my_base_tempo is
     port(
         clk      :   in std_logic;
-        SW : in std_logic_vector(17 downto 17);
+        sw_in : in std_logic;
         enable : in std_logic;
         saida_clk :   out std_logic_vector(7 downto 0)
         );
@@ -17,7 +17,7 @@ architecture divInteiro of my_base_tempo is
     signal contador : integer range 0 to 100000000 := 0;
 begin
     -- sw seleciona o divisor
-	 divisor <= 50000000 when SW(17)='1' else 100000000;
+	 divisor <= 50000000 when sw_in='1' else 100000000;
     process(clk)
     begin
         if rising_edge(clk) then
