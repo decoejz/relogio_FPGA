@@ -5,6 +5,8 @@
 
 - listar comandos e explicar endereçamentos
 
+- colocar imagens
+
 
 # Relogio na FPGA
 
