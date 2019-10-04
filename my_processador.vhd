@@ -51,13 +51,13 @@ begin
 				muxRegEsc => sig_mux_reg_escrita);
 				
 		-- Port map do program counter
-		-- O valor de imediato, caso seja utilizado sera de 9 bits
+		-- O valor de imediato, caso seja utilizado sera de 10 bits
 		PC: entity work.my_pc
 			Generic Map(DATA_PC_SIZE=>DATA_PC_SIZE)
 			Port Map(
 				clk => clk,
 				imediate => ROM_in(DATA_PC_SIZE-1 downto 0),
-				uc_enable => sig_we,					
+				uc_enable => sig_mux_pc,					
 				instr => sig_pc);
 				
 		MUX_REG_ULA: entity work.my_mux
@@ -68,6 +68,14 @@ begin
 				sel => sig_mux_reg_ula,
 				Y => sig_saida_mux_reg_ula);
 				
+		MUX_REG_ESC: entity work.my_mux
+			Generic Map(DATA_WIDTH=>5)
+			Port Map(
+				A => ROM_in(9 downto 5),
+				B => ROM_in(14 downto 10),
+				sel => sig_mux_reg_escrita,
+				Y => sig_reg_escrita);
+				
 		BR: entity work.my_banco_reg
 			Generic Map(larguraDados=>DATA_WIDTH,larguraEndBancoRegs=>ADD_SIZE)
 			Port Map(
@@ -77,16 +85,8 @@ begin
 				enderecoEscrita => sig_reg_escrita,
 				dadosEscrita => sig_saida_mux_ula_in,
 				we => sig_we,
-				saidaA => sig_data_b_br,
-				saidaB => sig_data_a_br);
-		
-		MUX_ULA_REG_ESC: entity work.my_mux
-			Generic Map(DATA_WIDTH=>5)
-			Port Map(
-				A => ROM_in(9 downto 5),
-				B => ROM_in(14 downto 10),
-				sel => sig_mux_reg_escrita,
-				Y => sig_reg_escrita);
+				saidaA => sig_data_a_br,
+				saidaB => sig_data_b_br);
 		
 		MUX_ULA_IN: entity work.my_mux
 			Generic Map(DATA_WIDTH=>DATA_WIDTH)

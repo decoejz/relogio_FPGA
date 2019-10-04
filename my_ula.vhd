@@ -43,6 +43,26 @@ end my_ula;
 architecture ulaArch of my_ula is
 	signal maior_que, igual_que, menor_que : std_logic;
 	
+	--Soma A + B
+	constant SOMA : std_logic_vector(2 downto 0) := "000";
+	
+	--Compara se A>B
+	constant COMPB : std_logic_vector(2 downto 0) := "001";
+	
+	--SUBTRAI A - B
+	constant SUBTRAI : std_logic_vector(2 downto 0) := "010";
+	
+	--Retorna o valor de B sem alterar ele
+	constant RETB : std_logic_vector(2 downto 0) := "011";
+	
+	--Compara se A = B
+	constant COMPE : std_logic_vector(2 downto 0) := "100";
+	
+	--Compara se A < B
+	constant COMPS : std_logic_vector(2 downto 0) := "101";
+	
+	--Nao faz nada
+	constant NADA : std_logic_vector(2 downto 0) := "111";
 begin
 
 	maior_que <= '1' when (A>B) else '0'; -- Compara se A > B
@@ -50,78 +70,22 @@ begin
 	menor_que <= '1' when (A<B) else '0'; -- Compara se A < B
 	
 	SAIDA : with func select
-	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when "000",
-		  std_logic_vector(unsigned(A) - unsigned(b)) when "010",
-		  B when "011",
+	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
+		  std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
+		  B when RETB,
 		  (others=>'0') when others;
 	
 	MAIOR_QUE_select : with func select
-	bigger_than <= maior_que when "001",
+	bigger_than <= maior_que when COMPB,
 						'0' when others;
 	
 	IGUAL_QUE_select : with func select
-	iqual_to <= igual_que when "100",
+	iqual_to <= igual_que when COMPE,
 					'0' when others;
 	
 	MENOR_QUE_select : with func select
-	smaller_than <= menor_que when "101",
+	smaller_than <= menor_que when COMPS,
 						 '0' when others;
-
-
---	-- Funcoes da ULA
---	process(A,B,func)
---	begin
---		-- Soma A + B e o resultado é armazenado em Y.
---		if (func = "000") then
---			-- Transforma os std_logic_vector em inteiros positivos e soma.
---			-- Transforma de volta a resposta para std_logic_vector
---			Y <= std_logic_vector(unsigned(A) + unsigned(B));
---		
---		-- Compara se A > B
---		-- Retorna uma flag:
---		-- 1 caso seja maior,
---		-- 0 caso seja menor.
---		elsif (func = "001") then
---			if (A > B) then
---				bigger_than <= '1';
---			else 
---				bigger_than <= '0';
---			end if;
---			
---		-- Subtrai A - B e o resultado é armazenado em Y.
---		elsif (func = "010") then
---			-- Transforma os std_logic_vector em inteiros positivos e subtrai.
---			-- Transforma de volta a resposta para std_logic_vector
---			Y <= std_logic_vector(unsigned(A) - unsigned(b));
---			
---		-- Retorna o valor de A, sem fazer nenhum tipo de operacao
---		elsif (func = "011") then
---			Y <= B;
---		
---		-- Compara se A = B
---		-- Retorna uma flag:
---		-- 1 caso seja igual,
---		-- 0 caso seja diferente.
---		elsif (func = "100") then
---			if (A = B) then
---				iqual_to <= '1';
---			else 
---				iqual_to <= '0';
---			end if;
---			
---		-- Compara se A < B
---		-- Retorna uma flag:
---		-- 1 caso seja menor,
---		-- 0 caso seja maior.
---		elsif (func = "101") then
---			if (A < B) then
---				smaller_than <= '1';
---			else 
---				smaller_than <= '0';
---			end if;
---		
---		end if;
---	end process;
 
 	
 end ulaArch;
