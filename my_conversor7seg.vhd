@@ -9,11 +9,10 @@ entity my_conversor7seg is
         -- Recebe o valor em binário do que será mostrado
         dadoHex  : in  std_logic_vector(3 downto 0);
 		  
+		  --Habilita a escrita no display
 		  enable : in std_logic;
-        -- Valores condicionais sem ser do relógio
-       -- apaga    : in  std_logic := '0';
-       -- negativo : in  std_logic := '0';
-       -- overFlow : in  std_logic := '0';
+		  clk : in std_logic;
+
         -- Output ports
         -- Desenho do display em bits
         saida7seg : out std_logic_vector(6 downto 0) 
@@ -52,6 +51,10 @@ begin
                             "1110011" when (dadoHex="1011" AND enable='1') else ---P
 									 
                             "1111111"; -- Apaga todos segmentos.
-
-    saida7seg <=     	rascSaida7seg;
+	 process (clk)
+	 begin
+		if (rising_edge(clk)) then
+			saida7seg <= rascSaida7seg;
+		end if;
+	 end process;
 end architecture;

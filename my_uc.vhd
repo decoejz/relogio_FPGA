@@ -23,184 +23,75 @@ end entity;
 
 architecture ucArc of my_uc is
 
+--ADD R1, R2, R3 : R3=R2+R1
 constant ADD : std_logic_vector(4 downto 0) := "00000";
+
+--ADDi R1, R2 Imediato : R2=R1+Imediato
+constant ADDi : std_logic_vector(4 downto 0) := "00001";
+
+--LOAD R, End : Move o que esta em R para o End
+constant LOAD : std_logic_vector(4 downto 0) := "00010";
+
+--JMP Imediato : Pula para a linha da ROM referente ao Imediato
+constant JMP : std_logic_vector(4 downto 0) := "00011";
+
+--CMPi R1, R2, Imediato : Compara se o valor de R1 > Imediato e salva em R2
+constant CMPi : std_logic_vector(4 downto 0) := "00100";
+
+--LEA End, R : Le as informacoes do End e salva em R
+constant LEA : std_logic_vector(4 downto 0) := "00101";
+
+--JLE Imediato : A CMPi devolve uma flag dizendo se é maior ou nao, decidindo se pula para o Imediato
+constant JLEC : std_logic_vector(4 downto 0) := "00110";
+
+--LEAi R, Imediato : Salva o valor imediato no registrador R
+constant LEAi : std_logic_vector(4 downto 0) := "00111";
+
+--JE Imediato : Pula para o Imediato baseado na flag indicando se o valor é igual
+constant JEC : std_logic_vector(4 downto 0) := "01000";
+
+--JBE Imediato : Pula para o Imediato baseado na flag indicando se o valor é igual
+constant JBEC : std_logic_vector(4 downto 0) := "01001";
+
+--CMPe R1, R2, Imediato : Salva em R2 se R1 = Imediato
+constant CMPe : std_logic_vector(4 downto 0) := "01010";
+
+--CMPle R1, R2, Imediato : Salva em R2 se R1 < Imediato
+constant CMPle : std_logic_vector(4 downto 0) := "01011";
 	
 begin
 
-
-	muxPc <= '1' when opcode = "00011" else
-				not (jle) when opcode = "00110" else
-				je when opcode = "01000" else
-				jbe when opcode = "01001" else
+	muxPc <= '1' when opcode = JMP else
+				not (jle) when opcode = JLEC else
+				je when opcode = JEC else
+				jbe when opcode = JBEC else
 				'0';
-	muxRegUla <= '1' when opcode = ADD else
+				
+	muxRegUla <= '1' when opcode=ADD OR opcode=LOAD OR opcode=LEA else
 					 '0';
 	
-	funcUla <= "000" when opcode=ADD OR opcode="00001" else
-				  "011" when opcode="00010" OR opcode="00011" OR opcode="00101" OR opcode="00110" OR opcode="00111" OR opcode="01000" OR opcode="01001" else
-				  "001" when opcode="00100" else
-				  "100" when opcode="01010" else
-				  "101" when opcode="01011" else
+	funcUla <= "000" when opcode=ADD OR opcode=ADDi else
+				  "001" when opcode=CMPi else
+				  "011" when opcode=LOAD OR opcode=LEAi else
+				  "100" when opcode=CMPe else
+				  "101" when opcode=CMPle else
 				  "111";
 				  
- 	muxRegSai <= '1' when opcode=ADD OR opcode="00001" OR opcode="00011" OR opcode="00100" OR opcode="00111" OR opcode="01010" OR opcode="01011" else
+ 	muxRegSai <= '1' when opcode=ADD OR opcode=ADDi OR
+								 opcode=CMPi OR opcode=LEAi OR opcode=CMPe OR opcode=CMPle else
 					 '0';
 					 
-	weBC <= '1' when opcode=ADD OR opcode="00001" OR opcode="00100" OR opcode="00101" OR opcode="00111" OR opcode="01010" OR opcode="01011" else
+	weBC <= '1' when opcode=ADD OR opcode=ADDi OR opcode=CMPi OR opcode=LEA OR
+						  opcode=LEAi OR opcode=CMPe OR opcode=CMPle else
 			  '0';
 			  
-	readEnable <= '1' when opcode="00101" else
+	readEnable <= '1' when opcode=LEA else
 					  '0';
 	
-	writeEnable <= '1' when opcode="00010" else
+	writeEnable <= '1' when opcode=LOAD else
 						'0';
 						
-	muxRegEsc <= '1' when opcode="00001" OR opcode="00010" OR opcode="00011" OR opcode="00100" OR
-							opcode="00101" OR opcode="00110" OR opcode="00111" OR opcode="01000" OR
-							opcode="01001" OR opcode="01010" OR opcode="01011" else
-					 '0';
-
---	process(opcode, jle, je, jbe)
---	begin
---		
---		-- ADD R1, R2, R3
---		if (opcode=ADD) then
---			--muxPc <= '0';
---			--muxRegUla <= '1';
---			--funcUla <= "000";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '0';
---		 
---		-- ADDi R1, R2 Imediato
---		elsif (opcode="00001") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "000";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---		-- LOAD R, End
---		elsif (opcode="00010") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '0';
---			--weBC <= '0';
---			--readEnable <= '0';
---			--writeEnable <= '1';
---			--muxRegEsc <= '1';
---		
---		-- JMP Imediato
---		elsif (opcode="00011") then
---			--muxPc <= '1';
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '1';
---			--weBC <= '0';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---		-- CMPi R1, R2, Imediato
---		elsif (opcode="00100") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "001";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---		-- LEA End, R
---		elsif (opcode="00101") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '0';
---			--weBC <= '1';
---			--readEnable <= '1';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---		-- JLE Imediato
---		-- A CMPi devolve uma flag dizendo se é maior ou nao,
---		-- decidindo se pula
---		elsif (opcode="00110") then
---			--muxPc <= not (jle);
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '0';
---			--weBC <= '0';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---		-- LEAi R, Imediato
---		-- Salva o valor imediato no registrador R
---		elsif (opcode="00111") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--muxRegEsc <= '1';
---			
---		-- JE Imediato
---		-- Pula baseado na flag indicando se o valor é igual
---		elsif (opcode="01000") then
---			--muxPc <= je;
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '0';
---			--weBC <= '0';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---			
---		-- JBE Imediato
---		-- Pula baseado na flag indicando se o valor é igual
---		elsif (opcode="01001") then
---			--muxPc <= jbe;
---			--muxRegUla <= '0';
---			--funcUla <= "011";
---			--muxRegSai <= '0';
---			--weBC <= '0';
---			--readEnable <= '0';
---			--muxRegEsc <= '1';
---			
---		-- CMPe R1, R2, Imediato
---		-- R2 = se(R1 = imediato)
---		elsif (opcode="01010") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "100";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---			
---		-- CMPle R1, R2, Imediato
---		-- R2 = se(R1 < imediato)
---		elsif (opcode="01011") then
---			--muxPc <= '0';
---			--muxRegUla <= '0';
---			--funcUla <= "101";
---			--muxRegSai <= '1';
---			--weBC <= '1';
---			--readEnable <= '0';
---			--writeEnable <= '0';
---			--muxRegEsc <= '1';
---		
---			end if;
---	end process;
---	
+	muxRegEsc <= '0' when opcode=ADD else
+					 '1';
+					 
 end architecture;

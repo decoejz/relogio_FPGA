@@ -125,27 +125,27 @@ begin
 		);
 	
 	DISPLAY0: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX0, dadoHex => sig_data_out(3 downto 0), enable => sig_es70);
+		Port Map(saida7seg => HEX0, dadoHex => sig_data_out(3 downto 0), enable => sig_es70, clk => tick);
 	
 	DISPLAY1: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX1, dadoHex => sig_data_out(3 downto 0), enable => sig_es71);
+		Port Map(saida7seg => HEX1, dadoHex => sig_data_out(3 downto 0), enable => sig_es71, clk => tick);
 		
 	DISPLAY2: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX2, dadoHex => sig_data_out(3 downto 0), enable => sig_es72);
+		Port Map(saida7seg => HEX2, dadoHex => sig_data_out(3 downto 0), enable => sig_es72, clk => tick);
 		
 	DISPLAY3: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX3, dadoHex => sig_data_out(3 downto 0), enable => sig_es73);
+		Port Map(saida7seg => HEX3, dadoHex => sig_data_out(3 downto 0), enable => sig_es73, clk => tick);
 		
 	DISPLAY4: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX4, dadoHex => sig_data_out(3 downto 0), enable => sig_es74);
+		Port Map(saida7seg => HEX4, dadoHex => sig_data_out(3 downto 0), enable => sig_es74, clk => tick);
 		
 	DISPLAY5: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX5, dadoHex => sig_data_out(3 downto 0), enable => sig_es75);
+		Port Map(saida7seg => HEX5, dadoHex => sig_data_out(3 downto 0), enable => sig_es75, clk => tick);
 		
 	DISPLAY6: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX6, dadoHex => sig_data_out(3 downto 0), enable => sig_es76);
+		Port Map(saida7seg => HEX6, dadoHex => sig_data_out(3 downto 0), enable => sig_es76, clk => tick);
 		
 	DISPLAY7: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX7, dadoHex => sig_data_out(3 downto 0), enable => sig_es77);
+		Port Map(saida7seg => HEX7, dadoHex => sig_data_out(3 downto 0), enable => sig_es77, clk => tick);
 	
 end architecture;
