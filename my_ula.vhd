@@ -20,6 +20,7 @@ entity my_ula is
 	port
 	(
 		-- Entradas
+	--	clk : in std_logic;
 		A : in std_logic_vector (DATA_WIDTH-1 downto 0);
 		B : in std_logic_vector (DATA_WIDTH-1 downto 0);
 		
@@ -52,7 +53,7 @@ architecture ulaArch of my_ula is
 	--SUBTRAI A - B
 	constant SUBTRAI : std_logic_vector(2 downto 0) := "010";
 	
-	--Retorna o valor de B sem alterar ele
+	--Retorna o valor de A sem alterar ele
 	constant RETB : std_logic_vector(2 downto 0) := "011";
 	
 	--Compara se A = B
@@ -66,13 +67,13 @@ architecture ulaArch of my_ula is
 begin
 
 	maior_que <= '1' when (A>B) else '0'; -- Compara se A > B
-	igual_que <= '1' when (to_integer(unsigned(A AND B)) > 0) else '0'; -- Compara se um botao esta ativado ou nao
+	igual_que <= '1' when (A=B) else '0'; -- Compara se um botao esta ativado ou nao
 	menor_que <= '1' when (A<B) else '0'; -- Compara se A < B
 	
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
 		  std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
-		  B when RETB,
+		  A when RETB,
 		  (others=>'0') when others;
 	
 	MAIOR_QUE_select : with func select
@@ -86,7 +87,6 @@ begin
 	MENOR_QUE_select : with func select
 	smaller_than <= menor_que when COMPS,
 						 '0' when others;
-
 	
 end ulaArch;
 

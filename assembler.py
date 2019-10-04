@@ -192,7 +192,7 @@ class MIPS_MIF_Format:
 
     def end(self):
         if self.current_addr < 2**self.addr-1:
-            self.stream.write('[{}..{}]:   {};\n'.format(self.current_addr, 2**self.addr-1, ''.zfill(32)))
+            self.stream.write('[{}..{}]:   {};\n'.format(self.current_addr, 2**self.addr-1, ''.zfill(25)))
         self.stream.write('END;\n')
 
 class MIPS_Assemble:
