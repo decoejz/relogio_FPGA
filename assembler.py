@@ -97,7 +97,7 @@ class Line_Assemble:
  
     def get_j_instruction(self, instruct):
         table = {'JMP': '3', 'JL': '9','JE': '8','JB':'6'}
-        r = bindigits(int(table[instruct], 16), 20)
+        r = bindigits(int(table[instruct], 16), 5)
         logging.debug('j instruct: {}'.format(r))
         return r
 
@@ -141,7 +141,7 @@ class Line_Assemble:
 
     def get_j_address(self, label):
         a = self.labels[label]
-        r = bindigits(int(a), 8)
+        r = bindigits(int(a), 20)
         logging.debug('j address: {}'.format(r))
         return r
 
