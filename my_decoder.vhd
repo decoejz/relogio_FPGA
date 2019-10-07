@@ -28,7 +28,7 @@ begin
 
 		eseg70 <= '1' when (add_in = "0000000000" AND writeEnable = '1') else '0';
 		eseg71 <= '1' when (add_in = "0000000001" AND writeEnable = '1') else '0';
-		eseg72 <= '1' when (add_in = "00000000010" AND writeEnable = '1') else '0';
+		eseg72 <= '1' when (add_in = "0000000010" AND writeEnable = '1') else '0';
 		eseg73 <= '1' when (add_in = "0000000011" AND writeEnable = '1') else '0';
 		eseg74 <= '1' when (add_in = "0000000100" AND writeEnable = '1') else '0';
 		eseg75 <= '1' when (add_in = "0000000101" AND writeEnable = '1') else '0';

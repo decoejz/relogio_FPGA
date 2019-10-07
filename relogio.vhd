@@ -8,7 +8,7 @@ entity relogio is
 		TOTAL_KEY : natural := 2;
 		DATA_WIDTH : natural := 8;
 		PC_SIZE : natural := 10;
-		divisor : natural := 500000
+		divisor : natural := 50000000
 	);
 	port
 	(
@@ -53,7 +53,7 @@ begin
         end process;
     --saida_clk <= tick;
     
-	 LEDR(0) <= sig_data_out(0);
+	 --LEDR(0) <= sig_es72;
 	 
 	 CPU: entity work.my_processador
 		Generic Map (DATA_PC_SIZE=>PC_SIZE)
@@ -66,7 +66,7 @@ begin
 			addr => sig_add,
 			readEnableDecoder => sig_red,
 			writeEnableDecoder => sig_wed,
-			ledSegundo => LEDG,
+			--ledSegundo => LEDG,
 			saidaULAteste => saida_ula_cpu_teste,
 			saidaULAtesteA =>saida_ula_cpu_teste_a,
 			saidaULAtesteB =>saida_ula_cpu_teste_b 
@@ -98,7 +98,8 @@ begin
 		Port Map(
 			sw_in => SW(TOTAL_SW-1 downto 0),
 			enable => sig_sesw,
-			sw_out => sig_data_in
+			sw_out => sig_data_in,
+			indicaLed => LEDR(TOTAL_SW-1 downto 0)
 		);
 		
 	KEY_MAP: entity work.my_key
@@ -107,13 +108,16 @@ begin
 			DATA_SIZE => DATA_WIDTH
 		)
 		Port Map(
+		   led_in=> LEDG(TOTAL_KEY-1 downto 0),
+			clk=>CLOCK_50,
 			key_in => KEY(TOTAL_KEY-1 downto 0),
 			enable => sig_ekey,
 			key_out => sig_data_in
 		);
 	
+	
 	BT_MAP: entity work.my_base_tempo
-		Generic Map(BT_RAPIDO=>1000000)
+		Generic Map(BT_RAPIDO=>5000)
 		Port Map(
 			clk => CLOCK_50,
 			sw_in => SW(17),

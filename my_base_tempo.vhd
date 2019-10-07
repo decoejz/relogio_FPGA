@@ -35,7 +35,6 @@ begin
 					contador <= 0;
             -- contador e comparador
             elsif contador >= divisor then
---                contador <= 0;
                 tick <= '1';
             else
                 contador <= contador + 1;

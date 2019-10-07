@@ -23,7 +23,7 @@ entity my_processador is
 			readEnableDecoder : out std_logic;
 			writeEnableDecoder : out std_logic;
 			
-			ledSegundo : out std_logic_vector(7 downto 0);
+			--ledSegundo : out std_logic_vector(7 downto 0);
 			saidaULAteste : out std_logic_vector(7 downto 0);
 			saidaULAtesteA : out std_logic_vector(7 downto 0);
 			saidaULAtesteB : out std_logic_vector(7 downto 0)

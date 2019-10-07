@@ -25,6 +25,7 @@ entity my_sw is
 		sw_in : in std_logic_vector(TOTAL_SW-1 downto 0);
 		enable : in std_logic;
 		
+		indicaLed : out std_logic_vector(TOTAL_SW-1 downto 0);
 		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0)
 	);
 end my_sw;
@@ -41,6 +42,8 @@ begin
 	sig_sw <= ( std_logic_vector(to_unsigned(0, sw_out'length - sw_in'length)) & sw_in);
 	
 	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
+	
+	indicaLed <= sw_in;
 	
 end swArch;
 
