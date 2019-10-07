@@ -1,4 +1,4 @@
-# Relogio na FPGA
+# Relógio na FPGA
 
 - André Ejzenmesser, Gabriel Monteiro, Vitor Satyro
 
