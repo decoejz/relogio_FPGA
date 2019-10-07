@@ -5,9 +5,9 @@ use ieee.numeric_std.all;
 
 entity my_processador is
 	Generic ( DATA_WIDTH : natural := 8;
-				 ADD_SIZE: natural := 5;
-				 ADD_OUT_SIZE: natural := 8;
-				 DATA_PC_SIZE : natural := 10);
+				 ADD_SIZE_BR: natural := 5;
+				 ADD_OUT_SIZE: natural := 10;
+				 DATA_PC_SIZE : natural := 20);
 	
 	port
 		(
@@ -21,26 +21,36 @@ entity my_processador is
 			data_out : out std_logic_vector(DATA_WIDTH-1 downto 0);
 			addr : out std_logic_vector(ADD_OUT_SIZE-1 downto 0);
 			readEnableDecoder : out std_logic;
-			writeEnableDecoder : out std_logic
+			writeEnableDecoder : out std_logic;
+			
+			ledSegundo : out std_logic_vector(7 downto 0);
+			saidaULAteste : out std_logic_vector(7 downto 0);
+			saidaULAtesteA : out std_logic_vector(7 downto 0);
+			saidaULAtesteB : out std_logic_vector(7 downto 0)
 		);
 end entity;
 
 architecture processadorArc of my_processador is
 
-	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to, sig_less_than, sig_mux_reg_escrita : std_logic;
+	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to,
+			 sig_less_than, sig_mux_reg_escrita, sig_mux_in_bc : std_logic;
+			 
 	signal sig_func_ula : std_logic_vector(2 downto 0);
 	signal sig_pc : std_logic_vector(DATA_PC_SIZE-1 downto 0);
 	signal sig_data_a_br, sig_data_b_br, sig_saida_mux_reg_ula, sig_saida_mux_ula_in, sig_saida_ula : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal sig_reg_escrita : std_logic_vector(4 downto 0);
+	signal sig_reg_escrita, sig_mux_out_bc : std_logic_vector(4 downto 0);
+	signal sig_meio_ula_igual, sig_meio_ula_maior, sig_meio_ula_menor : std_logic;
 	
 begin
+	
+		--ledSegundo <= sig_pc(7 downto 0);
 
 		UC: entity work.my_uc
 			Port Map(
 				opcode => ROM_in(24 downto 20),
-				jle => sig_bigger_than,
+				jb => sig_bigger_than,
 				je => sig_iqual_to,
-				jbe => sig_less_than,
+				jl => sig_less_than,
 				muxPc => sig_mux_pc,
 				muxRegUla => sig_mux_reg_ula,
 				funcUla => sig_func_ula,
@@ -48,7 +58,7 @@ begin
 				weBC => sig_we,
 				readEnable => readEnableDecoder,
 				writeEnable => writeEnableDecoder,
-				muxRegEsc => sig_mux_reg_escrita);
+				muxInBR => sig_mux_in_bc);
 				
 		-- Port map do program counter
 		-- O valor de imediato, caso seja utilizado sera de 10 bits
@@ -64,25 +74,25 @@ begin
 			Generic Map(DATA_WIDTH=>DATA_WIDTH)
 			Port Map(
 				A => ROM_in(DATA_WIDTH-1 downto 0),
-				B => sig_data_b_br,
+				B => sig_data_a_br,
 				sel => sig_mux_reg_ula,
 				Y => sig_saida_mux_reg_ula);
 				
-		MUX_REG_ESC: entity work.my_mux
-			Generic Map(DATA_WIDTH=>5)
+		MUX_IN_BR: entity work.my_mux
+			Generic Map(DATA_WIDTH=>ADD_SIZE_BR)
 			Port Map(
-				A => ROM_in(9 downto 5),
-				B => ROM_in(14 downto 10),
-				sel => sig_mux_reg_escrita,
-				Y => sig_reg_escrita);
+				A => ROM_in(19 downto 15),
+				B => ROM_in(9 downto 5),
+				sel => sig_mux_in_bc,
+				Y => sig_mux_out_bc);
 				
 		BR: entity work.my_banco_reg
-			Generic Map(larguraDados=>DATA_WIDTH,larguraEndBancoRegs=>ADD_SIZE)
+			Generic Map(larguraDados=>DATA_WIDTH,larguraEndBancoRegs=>ADD_SIZE_BR)
 			Port Map(
 				clk => clk,
-				enderecoA => ROM_in(19 downto 15),
+				enderecoA => sig_mux_out_bc,
 				enderecoB => ROM_in(14 downto 10),
-				enderecoEscrita => sig_reg_escrita,
+				enderecoEscrita => ROM_in(19 downto 15),
 				dadosEscrita => sig_saida_mux_ula_in,
 				we => sig_we,
 				saidaA => sig_data_a_br,
@@ -99,23 +109,42 @@ begin
 		ULA: entity work.my_ula
 			Generic Map(DATA_WIDTH=>DATA_WIDTH)
 			Port Map(
-				A => sig_data_a_br,
-				B => sig_saida_mux_reg_ula,
+				A => sig_saida_mux_reg_ula,
+				B => sig_data_b_br,
 				func => sig_func_ula,
 				Y => sig_saida_ula,
-				bigger_than => sig_bigger_than,
-				iqual_to => sig_iqual_to,
-				smaller_than => sig_less_than);
-
-	process(clk)
-	begin
-		if (rising_edge(clk)) then
-					
-			ROM_out <= sig_pc;
-			data_out <= sig_saida_ula;
-			addr <= ROM_in(ADD_OUT_SIZE-1 downto 0);
+				bigger_than => sig_meio_ula_maior,
+				iqual_to => sig_meio_ula_igual,
+				smaller_than => sig_meio_ula_menor);
+		
+		REGISTRADOR_IGUAL: entity work.my_registrador
+			port map(
+				clk => clk,
+				entrada => sig_meio_ula_igual,
+				saida => sig_iqual_to
+			);
 			
-		end if;
-	end process;
-    
+		REGISTRADOR_MENOR: entity work.my_registrador
+			port map(
+				clk => clk,
+				entrada => sig_meio_ula_menor,
+				saida => sig_less_than
+			);
+			
+		REGISTRADOR_MAIOR: entity work.my_registrador
+			port map(
+				clk => clk,
+				entrada => sig_meio_ula_maior,
+				saida => sig_bigger_than
+			);
+			
+		saidaULAteste <= "0000000" & sig_iqual_to;
+		saidaULAtesteA <= sig_saida_mux_reg_ula;
+		saidaULAtesteB <= sig_data_b_br;
+		
+			
+		ROM_out <= sig_pc;
+		data_out <= sig_saida_ula;
+		addr <= ROM_in(ADD_OUT_SIZE-1 downto 0);
+			
 end architecture;

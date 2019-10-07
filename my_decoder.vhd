@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity my_decoder is
     Generic(
-		ADD_SIZE: natural := 8
+		ADD_SIZE: natural := 10
 	 );
 	 port
     (
@@ -26,16 +26,17 @@ architecture decoderArc of my_decoder is
 
 begin
 
-		eseg70 <= '1' when (add_in = "00000000" AND writeEnable = '1') else '0';
-		eseg71 <= '1' when (add_in = "00000001" AND writeEnable = '1') else '0';
-		eseg72 <= '1' when (add_in = "00000010" AND writeEnable = '1') else '0';
-		eseg73 <= '1' when (add_in = "00000011" AND writeEnable = '1') else '0';
-		eseg74 <= '1' when (add_in = "00000100" AND writeEnable = '1') else '0';
-		eseg75 <= '1' when (add_in = "00000101" AND writeEnable = '1') else '0';
-		eseg76 <= '1' when (add_in = "00000110" AND writeEnable = '1') else '0';
-		eseg77 <= '1' when (add_in = "00000111" AND writeEnable = '1') else '0';
-		esw <= '1' when (add_in = "00001000" AND readEnable = '1') else '0';
-		ekey <= '1' when (add_in = "00001001" AND readEnable = '1') else '0';
-		ebt <= '1' when (add_in = "00001010" AND readEnable = '1') else '0';
+		eseg70 <= '1' when (add_in = "0000000000" AND writeEnable = '1') else '0';
+		eseg71 <= '1' when (add_in = "0000000001" AND writeEnable = '1') else '0';
+		eseg72 <= '1' when (add_in = "00000000010" AND writeEnable = '1') else '0';
+		eseg73 <= '1' when (add_in = "0000000011" AND writeEnable = '1') else '0';
+		eseg74 <= '1' when (add_in = "0000000100" AND writeEnable = '1') else '0';
+		eseg75 <= '1' when (add_in = "0000000101" AND writeEnable = '1') else '0';
+		eseg76 <= '1' when (add_in = "0000000110" AND writeEnable = '1') else '0';
+		eseg77 <= '1' when (add_in = "0000000111" AND writeEnable = '1') else '0';
+		esw <= '1' when (add_in = "0000001000" AND readEnable = '1') else '0';
+		ekey <= '1' when (add_in = "0000001001" AND readEnable = '1') else '0';
+		ebt <= '1' when ((add_in = "0000001010" AND readEnable = '1' AND writeEnable='0')
+							OR (add_in = "0000001010" AND readEnable = '0' AND writeEnable='1')) else '0';
 			
 end architecture;
