@@ -14,35 +14,33 @@ use ieee.numeric_std.all;
 
 
 
-entity my_key is
-	Generic ( 
-		TOTAL_KEY : natural := 2;
-		DATA_SIZE : natural := 8
-	);
-	
+entity my_registrador is	
 	port
 	(
-		key_in : in std_logic_vector(TOTAL_KEY-1 downto 0);
-		enable : in std_logic;
+		entrada : in std_logic;
+		clk : in std_logic;
 		
-		key_out : out std_logic_vector(DATA_SIZE-1 downto 0)
+		saida : out std_logic
 	);
-end my_key;
+end my_registrador;
 
 
 -- Library Clause(s) (optional)
 -- Use Clause(s) (optional)
-architecture keyArch of my_key is
+architecture regArch of my_registrador is
 
-	signal sig_key : std_logic_vector(DATA_SIZE-1 downto 0);
 	
 begin
 	
-	sig_key <= ( std_logic_vector(to_unsigned(0, key_out'length - key_in'length)) & not(key_in));
+	process(clk)
+	begin
+		if (rising_edge(clk)) then
+			saida <= entrada;
+		end if;
+		
+	end process;
 	
-	key_out <= sig_key when (enable = '1') else (others=>'Z');
-	
-end keyArch;
+end regArch;
 
 
 
