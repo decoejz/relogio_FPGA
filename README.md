@@ -1,13 +1,3 @@
-
-# FALTA FAZER
-
-- referenciar assembly
-
-- listar comandos e explicar endereçamentos
-
-- colocar imagens
-
-
 # Relogio na FPGA
 
 - André Ejzenmesser, Gabriel Monteiro, Vitor Satyro
@@ -29,7 +19,7 @@ Esse projeto foi construído a partir do design de um processador e a ligação 
 A arquitetura do processador é uma arquitetura registrador-registrador. A ROM externa ao processador fornecerá para ele as instruções necessárias para poder fazer o que deve fazer. Nela haverá um banco de registradores, com um total de 32 registradores, uma ULA que será capaz de fazer operações de soma e subtração, uma unidade de controle para poder ativar os pontos de controle referentes a diversos MUX internos, funções da ULA e ativar escrita no banco de registradores. Por fim, ela contará com um program counter, que somará um a cada instrução que passa ou fará com que vá diretamente para alguma linha de comando da ROM. Haverão 5 bits de endereços que serão enviados diretamente da ROM para o decoder. Haverão também dados de saída e de entrada no processador. Todos esses dados serão enviados e pelo banco de registradores e chegarão nele também.
 
 
-*IMAGEM PROCESSADOR*
+![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/processador.png)
 
 ## I/O
 
@@ -40,9 +30,9 @@ Os perífecos do relógio são:
 - 2 botões (edita decimal, edita unidade)
 - Base de tempo (converte o clock da placa na base de tempo escolhida)
 
-*IMAGEM I/O*
+![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/io.png)
 
-*MAPA DE MEMORIA*
+![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/mapamemoria.png)
 
 ## Modos de endereçamento 
 
