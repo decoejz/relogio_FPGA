@@ -223,7 +223,6 @@ set_global_assignment -name VHDL_FILE my_mux.vhd
 set_global_assignment -name VHDL_FILE my_banco_reg.vhd
 set_global_assignment -name VHDL_FILE my_decoder.vhd
 set_global_assignment -name VHDL_FILE my_base_tempo.vhd
-set_global_assignment -name VHDL_FILE my_flip_flop.vhd
 set_global_assignment -name VHDL_FILE my_pc.vhd
 set_global_assignment -name VHDL_FILE my_somador.vhd
 set_global_assignment -name VHDL_FILE my_uc.vhd

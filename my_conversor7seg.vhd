@@ -49,6 +49,7 @@ begin
                             "0010000" when (dadoHex="1001" AND enable='1') else ---9
                             "0001000" when (dadoHex="1010" AND enable='1') else ---A
                             "0001100" when (dadoHex="1011" AND enable='1') else ---P
+									 "0111111" when (dadoHex="1100" AND enable='1') else ---'-'
 									 
                             "1111111"; -- Apaga todos segmentos.
 	 process (clk)

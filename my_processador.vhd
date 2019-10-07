@@ -21,12 +21,7 @@ entity my_processador is
 			data_out : out std_logic_vector(DATA_WIDTH-1 downto 0);
 			addr : out std_logic_vector(ADD_OUT_SIZE-1 downto 0);
 			readEnableDecoder : out std_logic;
-			writeEnableDecoder : out std_logic;
-			
-			--ledSegundo : out std_logic_vector(7 downto 0);
-			saidaULAteste : out std_logic_vector(7 downto 0);
-			saidaULAtesteA : out std_logic_vector(7 downto 0);
-			saidaULAtesteB : out std_logic_vector(7 downto 0)
+			writeEnableDecoder : out std_logic
 		);
 end entity;
 
@@ -43,8 +38,6 @@ architecture processadorArc of my_processador is
 	
 begin
 	
-		--ledSegundo <= sig_pc(7 downto 0);
-
 		UC: entity work.my_uc
 			Port Map(
 				opcode => ROM_in(24 downto 20),
@@ -137,11 +130,7 @@ begin
 				entrada => sig_meio_ula_maior,
 				saida => sig_bigger_than
 			);
-			
-		saidaULAteste <= sig_saida_ula;
-		saidaULAtesteA <= sig_saida_mux_reg_ula;
-		saidaULAtesteB <= sig_data_b_br;
-		
+					
 			
 		ROM_out <= sig_pc;
 		data_out <= sig_saida_ula;

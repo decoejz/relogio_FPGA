@@ -7,8 +7,7 @@ entity relogio is
 		TOTAL_SW : natural := 3;
 		TOTAL_KEY : natural := 2;
 		DATA_WIDTH : natural := 8;
-		PC_SIZE : natural := 10;
-		divisor : natural := 50000000
+		PC_SIZE : natural := 10
 	);
 	port
 	(
@@ -33,28 +32,9 @@ architecture relogioArc of relogio is
 	signal sig_red, sig_wed, sig_es70, sig_es71, sig_es72, sig_es73, sig_es74, sig_es75, sig_es76, sig_es77, sig_sesw, sig_ekey, sig_ebt : std_logic;
 
 	signal saida_ula_cpu_teste_a, saida_ula_cpu_teste_b, saida_ula_cpu_teste : std_logic_vector(7 downto 0);
-
-signal tick : std_logic := '0';
-        signal contador : integer range 0 to divisor := 0;
-
-		  
+	  
 begin		  
 		  
-	process(CLOCK_50)
-        begin
-            if rising_edge(CLOCK_50) then
-                if contador = divisor then
-                    contador <= 0;
-                    tick <= not tick;
-                else
-                    contador <= contador + 1;
-                end if;
-            end if;
-        end process;
-    --saida_clk <= tick;
-    
-	 --LEDR(0) <= sig_es72;
-	 
 	 CPU: entity work.my_processador
 		Generic Map (DATA_PC_SIZE=>PC_SIZE)
 		Port Map(
@@ -65,11 +45,7 @@ begin
 			data_out => sig_data_out,
 			addr => sig_add,
 			readEnableDecoder => sig_red,
-			writeEnableDecoder => sig_wed,
-			--ledSegundo => LEDG,
-			saidaULAteste => saida_ula_cpu_teste,
-			saidaULAtesteA =>saida_ula_cpu_teste_a,
-			saidaULAtesteB =>saida_ula_cpu_teste_b 
+			writeEnableDecoder => sig_wed 
 		 );
 		 
 	DECODER: entity work.my_decoder
