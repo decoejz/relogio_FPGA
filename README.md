@@ -4,6 +4,7 @@
 
 * [Introdução](#introdução)
   * [Top-Level VHDL](https://github.com/decoejz/relogio_FPGA/blob/master/relogio.vhd)
+  * [Vídeo demonstração do projeto](https://www.youtube.com/watch?v=CAV-8p0IIgc&feature=youtu.be)
 * [Processador](#processador)
 * [I/O](#io)
   * [Mapa de memória](#mapa-de-memória)
@@ -28,6 +29,7 @@ Esse projeto foi construído a partir do design de um processador e a ligação 
 
 [Top-Level VHDL](https://github.com/decoejz/relogio_FPGA/blob/master/relogio.vhd)
 
+[Vídeo demonstração do projeto](https://www.youtube.com/watch?v=CAV-8p0IIgc&feature=youtu.be)
  
 ## Processador
 
@@ -113,7 +115,7 @@ Esse projeto também conta com um assembler em python que converte o código ass
 ```
 python3 assembler.py seu_arquivo_assembly.asm -mif > initROM.mif
 ```
-3. O arquivo [initROM.mif](https://github.com/decoejz/relogio_FPGA) deste repositório é o responsável por fazer o relógio funcionar, se seu objeto é apenas reproduzir o projeto **NÃO** altere ele.
+3. O arquivo [initROM.mif](https://github.com/decoejz/relogio_FPGA/blob/master/initROM.mif) deste repositório é o responsável por fazer o relógio funcionar, se seu objeto é apenas reproduzir o projeto **NÃO** altere ele.
 
 ### Programando relógio na placa
 
