@@ -66,18 +66,18 @@ architecture ulaArch of my_ula is
 	constant NADA : std_logic_vector(2 downto 0) := "111";
 begin
 
-	maior_que <= '1' when (A>B) else '0'; -- Compara se A > B
+	maior_que <= '1' when (A<B) else '0'; -- Compara se A > B
 	igual_que <= '1' when (A=B) else '0'; -- Compara se um botao esta ativado ou nao
-	menor_que <= '1' when (A<B) else '0'; -- Compara se A < B
+	menor_que <= '1' when (A>B) else '0'; -- Compara se A < B
 	
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
-		  std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
+		  --std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
 		  A when RETA,
-		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & maior_que) when COMPB,
+		  --(std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & maior_que) when COMPB,
 		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & igual_que) when COMPE,
-		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
-		  (others=>'0') when others;
+		  --(std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH))) when others;
 	
 	MAIOR_QUE_select : with func select
 	bigger_than <= maior_que when COMPB,

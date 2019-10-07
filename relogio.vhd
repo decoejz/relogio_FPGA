@@ -8,7 +8,7 @@ entity relogio is
 		TOTAL_KEY : natural := 2;
 		DATA_WIDTH : natural := 8;
 		PC_SIZE : natural := 10;
-		divisor : natural := 50000000
+		divisor : natural := 500000
 	);
 	port
 	(
@@ -53,14 +53,14 @@ begin
         end process;
     --saida_clk <= tick;
     
-	 --LEDR(7 downto 0) <= sig_data_in;
+	 LEDR(0) <= sig_data_out(0);
 	 
 	 CPU: entity work.my_processador
 		Generic Map (DATA_PC_SIZE=>PC_SIZE)
 		Port Map(
 			data_in => sig_data_in,
 			ROM_in => sig_rom_in,
-			clk => tick,
+			clk => CLOCK_50,
 			ROM_out => sig_rom_out,
 			data_out => sig_data_out,
 			addr => sig_add,
@@ -113,14 +113,16 @@ begin
 		);
 	
 	BT_MAP: entity work.my_base_tempo
+		Generic Map(BT_RAPIDO=>10000000)
 		Port Map(
 			clk => CLOCK_50,
 			sw_in => SW(17),
 			enable => sig_ebt,
-			ledSegundo => LEDR(16 downto 9),
+			ledRapido => LEDR(17),
 			reset => sig_data_out(0),
 			readEnable => sig_red,
-			saida_clk => sig_data_in
+			saida_clk => sig_data_in,
+			writeEnable=>sig_wed
 		);
 		
 	ROM: entity work.my_memoryROM
@@ -149,12 +151,12 @@ begin
 		Port Map(saida7seg => HEX4, dadoHex => sig_data_out(3 downto 0), enable => sig_es74, clk => CLOCK_50);
 		
 	DISPLAY5: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX5, dadoHex => saida_ula_cpu_teste(3 downto 0), enable => '1', clk => CLOCK_50);
+		Port Map(saida7seg => HEX5, dadoHex => sig_data_out(3 downto 0), enable => sig_es75, clk => CLOCK_50);
 		
 	DISPLAY6: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX6, dadoHex => saida_ula_cpu_teste_b(3 downto 0), enable => '1', clk => CLOCK_50);
+		Port Map(saida7seg => HEX6, dadoHex => sig_data_out(3 downto 0), enable => sig_es76, clk => CLOCK_50);
 		
 	DISPLAY7: entity work.my_conversor7seg
-		Port Map(saida7seg => HEX7, dadoHex => saida_ula_cpu_teste_a(3 downto 0), enable => '1', clk => CLOCK_50);
+		Port Map(saida7seg => HEX7, dadoHex => sig_data_out(3 downto 0), enable => sig_es77, clk => CLOCK_50);
 	
 end architecture;

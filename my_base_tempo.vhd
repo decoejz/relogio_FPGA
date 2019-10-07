@@ -3,7 +3,8 @@ USE ieee.std_logic_1164.ALL;
 use ieee.numeric_std.all;
 
 entity my_base_tempo is
-	Generic ( DATA_SIZE : natural := 8);
+	Generic ( DATA_SIZE : natural := 8;
+				 BT_RAPIDO : natural := 25000000);
     port(
         clk      :   in std_logic;
         sw_in : in std_logic;
@@ -11,8 +12,9 @@ entity my_base_tempo is
 		  
 		  reset : in std_logic;
 		  readEnable : in std_logic;
+		  writeEnable : in std_logic;
 		  
-		  ledSegundo : out std_logic_vector(7 downto 0);
+		  ledRapido : out std_logic;
 		 
         saida_clk :   out std_logic_vector(DATA_SIZE-1 downto 0)
         );
@@ -24,20 +26,20 @@ architecture divInteiro of my_base_tempo is
     signal contador : integer range 0 to 100000000 := 0;
 begin
     -- sw seleciona o divisor
-	 divisor <= 50000000 when sw_in='0' else 25000000;
+	 divisor <= 50000000 when sw_in='0' else BT_RAPIDO;
+	 ledRapido <= sw_in;
    process(clk)
     begin
         if rising_edge(clk) then
 				if (reset='1') then
 					contador <= 0;
-				end if;
             -- contador e comparador
-            if contador = divisor then
-                contador <= 0;
-                tick <= not tick;
-					 ledSegundo <= (others=>tick);
+            elsif contador >= divisor then
+--                contador <= 0;
+                tick <= '1';
             else
                 contador <= contador + 1;
+					 tick <= '0';
             end if;
         end if;
 	end process;

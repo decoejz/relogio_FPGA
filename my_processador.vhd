@@ -138,7 +138,7 @@ begin
 				saida => sig_bigger_than
 			);
 			
-		saidaULAteste <= "0000000" & sig_iqual_to;
+		saidaULAteste <= sig_saida_ula;
 		saidaULAtesteA <= sig_saida_mux_reg_ula;
 		saidaULAtesteB <= sig_data_b_br;
 		

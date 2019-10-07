@@ -1,25 +1,29 @@
-library IEEE;
-use IEEE.std_logic_1164.all;
+library ieee;
+use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity my_memoryROM IS
-    generic (
-        dataWidth: natural := 8;
-        addrWidth: natural := 10
+entity my_memoryROM is
+
+    generic
+    (
+        dataWidth : natural := 8;
+        addrWidth : natural := 8
     );
+
     port (
-        Endereco : IN STD_LOGIC_VECTOR (addrWidth-1 DOWNTO 0);
-        Dado : OUT STD_LOGIC_VECTOR (dataWidth-1 DOWNTO 0)
+          Endereco : in std_logic_vector (addrWidth-1 DOWNTO 0);
+          Dado : out std_logic_vector (dataWidth-1 DOWNTO 0)
     );
 end entity;
 
-architecture sincrona OF my_memoryROM IS
+architecture initFileROM of my_memoryROM is
 
-	type memory_t is array (2**addrWidth -1 downto 0) of std_logic_vector (dataWidth-1 downto 0);
-	signal content: memory_t;
-	attribute ram_init_file : string;
-	attribute ram_init_file of content : signal is "initROM.mif";
+type memory_t is array (2**addrWidth -1 downto 0) of std_logic_vector (dataWidth-1 downto 0);
+signal content: memory_t;
+attribute ram_init_file : string;
+attribute ram_init_file of content:
+signal is "teste6.mif";
 
 begin
-    Dado <= content(to_integer(unsigned(Endereco)));
+   Dado <= content(to_integer(unsigned(Endereco)));
 end architecture;

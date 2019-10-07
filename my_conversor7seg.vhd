@@ -37,18 +37,18 @@ architecture comportamento of my_conversor7seg is
   signal rascSaida7seg: std_logic_vector(6 downto 0);
 
 begin
-    rascSaida7seg <=    	"1000000" when (dadoHex="0000") else ---0
-                            "1111001" when (dadoHex="0001") else ---1
-                            "0100100" when (dadoHex="0010") else ---2
-                            "0110000" when (dadoHex="0011") else ---3
-                            "0011001" when (dadoHex="0100") else ---4
-                            "0010010" when (dadoHex="0101") else ---5
-                            "0000010" when (dadoHex="0110") else ---6
-                            "1111000" when (dadoHex="0111") else ---7
-                            "0000000" when (dadoHex="1000") else ---8
-                            "0010000" when (dadoHex="1001") else ---9
-                            "0001000" when (dadoHex="1010") else ---A
-                            "1110011" when (dadoHex="1011") else ---P
+    rascSaida7seg <=    	"1000000" when (dadoHex="0000" AND enable='1') else ---0
+                            "1111001" when (dadoHex="0001" AND enable='1') else ---1
+                            "0100100" when (dadoHex="0010" AND enable='1') else ---2
+                            "0110000" when (dadoHex="0011" AND enable='1') else ---3
+                            "0011001" when (dadoHex="0100" AND enable='1') else ---4
+                            "0010010" when (dadoHex="0101" AND enable='1') else ---5
+                            "0000010" when (dadoHex="0110" AND enable='1') else ---6
+                            "1111000" when (dadoHex="0111" AND enable='1') else ---7
+                            "0000000" when (dadoHex="1000" AND enable='1') else ---8
+                            "0010000" when (dadoHex="1001" AND enable='1') else ---9
+                            "0001000" when (dadoHex="1010" AND enable='1') else ---A
+                            "0001100" when (dadoHex="1011" AND enable='1') else ---P
 									 
                             "1111111"; -- Apaga todos segmentos.
 	 process (clk)
