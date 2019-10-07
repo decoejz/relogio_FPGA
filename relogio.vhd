@@ -113,7 +113,7 @@ begin
 		);
 	
 	BT_MAP: entity work.my_base_tempo
-		Generic Map(BT_RAPIDO=>10000000)
+		Generic Map(BT_RAPIDO=>1000000)
 		Port Map(
 			clk => CLOCK_50,
 			sw_in => SW(17),
