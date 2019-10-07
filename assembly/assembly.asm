@@ -1,40 +1,3 @@
-; Registradores:
-; 00 - US
-; 01 - DS
-; 02 - UM
-; 03 - DM
-; 04 - UH12
-; 05 - DH12
-; 06 - UH24
-; 07 - DH24
-; 08 - AMPM
-; 09 - JLER
-; 0A - IOSR
-; 0B - JER
-; 0C - JBER
-;
-; Endereços:
-; 00 - 7NADA
-; 01 - 7AMPM
-; 02 - 7US
-; 03 - 7DS
-; 04 - 7UM
-; 05 - 7DM
-; 06 - 7UH
-; 07 - 7DH
-;----------------
-; 08 - SWs
-;  - SWH
-;  - SWM
-;  - SW2412
-;----------------
-; 09 - KEYs
-;  - KEYU
-;  - KEYD
-;---------------
-; 0A - BaseTempo
-;-----------------
-; 0B:FF - Reservado
 SETUP:
     LEAi US, 0
     LEAi DS, 0
@@ -48,71 +11,75 @@ SETUP:
     JMP COMECA
 LOOP:
 	LEA BaseTempo, IOSR
-	CMPe IOSR, JER, 1
+	CMPe JER, IOSR, 1
 	JE COMECA
 	JMP LOOP
 COMECA:
     LEA SWs, IOSR
-    CMPe IOSR, JER, 1
+    CMPe JER, IOSR, 1
     JE CONFIGHORA
     LEA SWs, IOSR
-    CMPe IOSR, JER, 2
+    CMPe JER, IOSR, 2
     JE CONFIGMIN
     LEA SWs, IOSR
-    CMPe IOSR, JER, 4
+    CMPe JER, IOSR, 4
     JE 24h
     JMP 12h
 TEMPO:
     ADDi US, US, 1
-    CMPi US, JLER, 1
-    JLE CDS
+    CMPi JLER, US, 9
+    JB CDS
+CDS:
     LEAi US, 0
     ADDi DS, DS, 1
-CDS:
-    CMPi DS, JLER, 5
-    JLE CUM
-    LEAi DS, 0
-    ADDi UM, UM, 1d
+    CMPi JLER, DS, 5
+    JB CUM
 CUM:
-    CMPi UM, JLER, 9
-    JLE CDM
+    LEAi DS, 0
+    ADDi UM, UM, 1
+    CMPi JLER, UM, 9
+    JB CDM
+CDM:
     LEAi UM, 1
     ADDi DM, DM, 1
-CDM:
-    CMPi DM, JLER, 5
-    JLE CUH12
+    CMPi JLER, DM, 5
+    JB CUH12
+CUH12:
     LEAi DM, 0
     ADDi UH12, UH12, 1
     ADDi UH24, UH24, 1
-CUH12:
-    CMPi UH12, JLER, 2
-    JLE CUH24
-    CMPi DH12, JLER, 0
-    JLE CUH12C9
+    CMPi JLER, UH12, 2
+    JB CDH12
+CDH12:
+    CMPi JLER, DH12, 0
+    JB CDH122
+CDH122:
     LEAi UH12, 1
     LEAi DH12, 0
-CUH12C9:
-    CMPi UH12, JLER, 9
-    JLE CUH24
+    CMPi JLER, UH12, 9
+    JB CDH123
+CDH123:
     LEAi UH12, 0
     ADDi DH12, DH12, 1
+    CMPi JLER, UH24, 3
+    JB CUH24
+    JMP CUH12
 CUH24:
-    CMPi UH24, JLER, 3
-    JLE CDH24
-    CMPi DH24, JLER, 1
-    JLE UH24C9
-    LEAi UH24, 1
-    ADDi DH24, DH24, 1
-UH24C9:
-    CMPi UH24, JLER, 9
-    JLE CDH24
+    CMPi JLER, DH24, 1
+    JB CDH24
+CDH24:
+    LEAi UH24, 0
+    ADDi, DH24, DH24, 0
+    CMPi JLER, UH24, 9
+    JB CUH242
+CUH242:
     LEAi UH24, 0
     ADDi DH24, DH24, 1
-CDH24:
-    CMPi DH24, JLER, 2
-    JLE LOOP
+    CMPi JLER, DH24, 2
+    JB CDH242
+CDH242:
     LEAi DH24, 0
-    JLE LOOP
+    JMP LOOP
 24h:
     LOAD US, 7US
     LOAD DS, 7DS
@@ -131,37 +98,37 @@ CDH24:
     JMP TEMPO
 CONFIGHORA:
     LEA KEYs, IOSR
-    CMPe IOSR, JE, 1
+    CMPe JER, IOSR, 1
     JE PROCUH
     JMP CHECKUP2UH
 PROCUH:
     ADDi UH12, UH12, 1
     ADDi UH24, UH24, 1
-    CMPi UH12, JLER, 9
-    JLE AJUSTAH24
-    LEAi UH12, 0
+    CMPi JLER, UH12, 9
+    JB AJUSTAH24
 AJUSTAH24:
+    LEAi UH12, 0 
     CMPi UH24, JLER, 9
-    JLE CHECKUP2UH
-    LEAi UH24, 0
+    JB CHECKUP2UH
 CHECKUP2UH:
+    LEAi UH24, 0
     LEA KEYs, IOSR
-    CMPe IOSR, JE, 2
+    CMPe JER, IOSR, 2
     JE AJUSTADH2412
     JMP LOOP
 AJUSTADH2412:
     ADDi DH12, DH12, 1
     ADDi DH24, DH24, 1
-    CMPi DH12, JLER, 1
-    JLE AJUSTAD24H
-    LEAi DH12, 0
+    CMPi JLER, DH12, 1
+    JB AJUSTAD24H
 AJUSTAD24H:
-    CMPi DH24, JLER, 2
-    JLE ENVIAUP7SEG
-    LEAi DH24, 0
+    LEAi DH12, 0
+    CMPi JLER, DH24, 2
+    JB ENVIAUP7SEG
 ENVIAUP7SEG:
+    LEAi DH24, 0
     LEA SWs, IOSR
-    CMPe IOSR, JER, 4
+    CMPe JER, IOSR, 4
     JE ENVIA24H7SEG
     LOAD UH12, 7UH
     LOAD DH12, 7DH
@@ -172,26 +139,25 @@ ENVIA24H7SEG:
     JMP LOOP
 CONFIGMIN:
     LEA KEYs, IOSR
-    CMPe IOSR, JE, 1
+    CMPe JER, IOSR, 1
     JE AJUSTAMD
 VOLTARCHECKDM:
     LEA KEYs, IOSR
-    CMPe IOSR, JE, 2
+    CMPe JER, IOSR, 2
     JE AJUSTAMU
     JMP LOOP
 AJUSTAMD:
     ADDi UM, UM, 1
-    CMPi UM, JLER, 9
-    JLE VOLTARCHECKDM
+    CMPi JLER, UM, 9
+    JB VOLTARCHECKDM
     LEAi UM, 0
     JMP VOLTARCHECKDM
 AJUSTAMU:
     ADDi DM, DM, 1
     CMPi DM, JLER, 5
-    JLE ENVIAM7SEG
-    LEAi DM, 0
-    JMP ENVIAM7SEG
+    JB ENVIAM7SEG
 ENVIAM7SEG:
+    LEAi DM, 0
     LOAD UM, 7UM
     LOAD DM, 7DM
     JMP LOOP
