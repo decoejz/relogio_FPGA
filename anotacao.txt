@@ -1,0 +1,12 @@
+ADD R1, R2, R3 : R1=R2+R3
+ADDi R1, R2, Imediato : R1=R2+Imediato
+LOAD R1, End : Move o que esta em R1 para o End
+JMP Imediato : Pula para a linha da ROM referente ao Imediato
+CMPi R1, R2, Imediato : Compara se o valor de R2 > Imediato e salva em R1
+LEA End, R1 : Le as informacoes do End e salva em R1
+JB Imediato : Pula para o Imediato baseado na flag indicando se o valor é maior
+LEAi R1, Imediato : Salva o valor imediato no registrador R1
+JE Imediato : Pula para o Imediato baseado na flag indicando se o valor é igual
+JL Imediato : Pula para o Imediato baseado na flag indicando se o valor é menor
+CMPe R1, R2, Imediato : Salva em R1 se R2 = Imediato
+CMPle R1, R2, Imediato : Salva em R1 se R2 < Imediato

@@ -11,9 +11,9 @@ def bindigits(n, bits):
 
 class Line_Assemble:
     def __init__(self):
-        self.r_instructions = ['LOAD', 'LEA']
-        self.i_instructions = ['LEAi','CMPe','CMPi', 'ADDi']
-        self.j_instructions = ['JMP','JLE','JE','JBE']
+        self.r_instructions = ['LOAD', 'LEA','ADD']
+        self.i_instructions = ['LEAi','CMPe','CMPi', 'ADDi','CMPle']
+        self.j_instructions = ['JMP','JL','JE','JB']
         self.labels = {}
         self.address = 0
     
@@ -63,17 +63,19 @@ class Line_Assemble:
     def get_instruction(self):
         instruct, args = self.get_parts()
         output = ""
-        if self.get_instruction_type() == 'r':
+        if self.get_instruction_type() == 'r' and len(args) == 2:
             if instruct == 'LOAD':
-                output = self.get_r_funct(instruct) + self.get_register(args[0]) + '0000000' + self.get_end(args[1])
+                output = self.get_r_funct(instruct) + self.get_register(args[0]) + '00000' + self.get_end(args[1])
             else:
-                output = self.get_r_funct(instruct) + '00000' + self.get_register(args[1]) + '00' + self.get_end(args[0])
+                output = self.get_r_funct(instruct) +  self.get_register(args[1])+ '00000' +self.get_end(args[0])
+        elif self.get_instruction_type() == 'r' and len(args) == 3:
+            output = self.get_r_funct(instruct) + self.get_register(args[0]) + self.get_end(args[1]) + self.get_end(args[2]) + '00000'
         elif self.get_instruction_type() == 'i' and len(args) == 2:
-            output = self.get_i_instruction(instruct) + '00000' + self.get_register(args[0]) + '00' + self.get_immediate(args[1])
+            output = self.get_i_instruction(instruct) + self.get_register(args[0])  + '00000' +  self.get_immediate(args[1])
         elif self.get_instruction_type() == 'i' and len(args) == 3:
-                output = self.get_i_instruction(instruct) + self.get_register(args[0]) + self.get_register(args[1]) + '00' + self.get_immediate(args[2])
+            output = self.get_i_instruction(instruct) + self.get_register(args[0]) + self.get_register(args[1]) + self.get_immediate(args[2])
         elif self.get_instruction_type() == 'j':
-            output = self.get_j_instruction(instruct) + '000000000000' + self.get_j_address(args[0])
+            output = self.get_j_instruction(instruct) + self.get_j_address(args[0])
 
         if self.get_instruction_type() != None and self.get_instruction_type() != 'l':
             self.address += 1
@@ -82,19 +84,19 @@ class Line_Assemble:
         return output
         
     def get_r_funct(self, instruct):
-        table = {'LOAD': '2','LEA': '5'}
+        table = {'LOAD': '2','LEA': '5','ADD':'0'}
         r = bindigits(int(table[instruct], 16), 5)
         logging.debug('r funct: {}'.format(r))
         return r
 
     def get_i_instruction(self, instruct):
-        table = {'LEAi': '7', 'CMPe':'10', 'CMPi':'4', 'ADDi':'1'}
+        table = {'LEAi': '7', 'CMPe':'A', 'CMPi':'4', 'CMPle':'11','ADDi':'1'}
         r = bindigits(int(table[instruct], 16), 5)
         logging.debug('i instruct: {}'.format(r))
         return r
  
     def get_j_instruction(self, instruct):
-        table = {'JMP': '3', 'JLE': '6','JE': '8','JBE':'9'}
+        table = {'JMP': '3', 'JL': '9','JE': '8','JB':'6'}
         r = bindigits(int(table[instruct], 16), 5)
         logging.debug('j instruct: {}'.format(r))
         return r
@@ -125,7 +127,7 @@ class Line_Assemble:
         table = {'SWs':'8','KEYs':'9','BaseTempo':'A','7NADA':'0','7AMPM':'1',
                  '7US':'2','7DS':'3','7UM':'4','7DM':'5','7UH':'6','7DH':'7'}
 
-        r = bindigits(int(table[end], 16), 8)
+        r = bindigits(int(table[end], 16), 10)
         logging.debug('register: {}'.format(r))
         return r
 
@@ -133,13 +135,13 @@ class Line_Assemble:
         if '(' in immediate:
             immediate = immediate[0:immediate.find('(')]
 
-        r = bindigits(int(immediate), 8)
+        r = bindigits(int(immediate), 10)
         logging.debug('immediate: {}'.format(r))
         return r
 
     def get_j_address(self, label):
         a = self.labels[label]
-        r = bindigits(int(a), 8)
+        r = bindigits(int(a), 20)
         logging.debug('j address: {}'.format(r))
         return r
 
@@ -191,8 +193,8 @@ class MIPS_MIF_Format:
         self.current_addr += self.increment_by
 
     def end(self):
-        if self.current_addr < 2**self.addr-1:
-            self.stream.write('[{}..{}]:   {};\n'.format(self.current_addr, 2**self.addr-1, ''.zfill(25)))
+        # if self.current_addr < 2**self.addr-1:
+        #     self.stream.write('[{}..{}]:   {};\n'.format(self.current_addr, 2**self.addr-1, ''.zfill(25)))
         self.stream.write('END;\n')
 
 class MIPS_Assemble:
