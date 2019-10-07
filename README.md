@@ -64,25 +64,21 @@ Os perífecos do relógio são:
 ## Dicionário de endereços e registradores
 
 
- |Registradores:    |   Endereços:       |
- |---------------------------------------|
- |00 - US           |   00 - 7NADA.      |
- |01 - DS           |   01 - 7AMPM.      |
- |02 - UM           |   02 - 7US         |
- |03 - DM           |   03 - 7DS         |
- |04 - UH12         |   04 - 7UM         |
- |05 - DH12         |   05 - 7DM         |
- |06 - UH24         |   06 - 7UH         |
- |07 - DH24         |   07 - 7DH         |
- |08 - AMPM         |   08 - SWs         |
- |09 - JLER         |         - SWH      |
- |0A - IOSR         |         - SWM      |
- |0B - JER          |         - SW2412   |
- |0C - JBER         |   09 - KEYs        |
- |                  |         - KEYU     |
- |                  |         - KEYD     |
- |                  |   0A - BaseTempo   |
- |                  |   0B:FF - Reservado|
+ | Registradores:    |   Endereços:        |
+ | ----------------- | ------------------- |
+ | 00 - US           |   00 - 7NADA.       |
+ | 01 - DS           |   01 - 7AMPM.       |
+ | 02 - UM           |   02 - 7US          |
+ | 03 - DM           |   03 - 7DS          |
+ | 04 - UH12         |   04 - 7UM          |
+ | 05 - DH12         |   05 - 7DM          |
+ | 06 - UH24         |   06 - 7UH          |
+ | 07 - DH24         |   07 - 7DH          |
+ | 08 - AMPM         |   08 - SWs (SWH,SWM,SW2412)        |
+ | 09 - JLER         |   09 - KEYs (KEYU,KEYD)         |
+ | 0A - IOSR         |   0A - BaseTempo    |
+ | 0B - JER          |   0B:FF - Reservado |
+ | 0C - JBER         |                     |
 
 ## Assembler
 
