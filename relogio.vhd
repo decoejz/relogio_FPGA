@@ -109,12 +109,11 @@ begin
 		)
 		Port Map(
 		   led_in=> LEDG(TOTAL_KEY-1 downto 0),
-			clk=>CLOCK_50,
 			key_in => KEY(TOTAL_KEY-1 downto 0),
 			enable => sig_ekey,
 			key_out => sig_data_in
 		);
-	
+		
 	
 	BT_MAP: entity work.my_base_tempo
 		Generic Map(BT_RAPIDO=>5000)
