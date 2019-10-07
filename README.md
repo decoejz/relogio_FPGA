@@ -54,6 +54,9 @@ Os perífecos do relógio são:
 
 Esse projeto também conta com um assembler em python que converte o código assembly de um arquivo .asm para linguagem de máquina de um arquivo .mif que pode ser carregado diretamente na placa FPGA. Esse assembler foi adaptado de um assembler para um processador MIPS feito pelo professor Eduardo Marossi.
 
+[ASSEMBLER](https://github.com/decoejz/relogio_FPGA/blob/master/python/assembler.py)
+
+
 
 
 
