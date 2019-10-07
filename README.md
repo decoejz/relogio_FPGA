@@ -61,6 +61,28 @@ Os perífecos do relógio são:
 
 [Código Assembly completo](https://github.com/decoejz/relogio_FPGA/blob/master/assembly/assembly.asm)
 
+## Dicionário de endereços e registradores
+
+
+ Registradores:    |   Endereços:
+ 00 - US           |   00 - 7NADA
+ 01 - DS           |   01 - 7AMPM
+ 02 - UM           |   02 - 7US
+ 03 - DM           |   03 - 7DS
+ 04 - UH12         |   04 - 7UM
+ 05 - DH12         |   05 - 7DM
+ 06 - UH24         |   06 - 7UH
+ 07 - DH24         |   07 - 7DH
+ 08 - AMPM         |   08 - SWs
+ 09 - JLER         |         - SWH
+ 0A - IOSR         |         - SWM
+ 0B - JER          |         - SW2412
+ 0C - JBER         |   09 - KEYs
+                   |         - KEYU
+                   |         - KEYD
+                   |   0A - BaseTempo
+                   |   0B:FF - Reservado
+
 ## Assembler
 
 Esse projeto também conta com um assembler em python que converte o código assembly de um arquivo .asm para linguagem de máquina de um arquivo .mif que pode ser carregado diretamente na placa FPGA. Esse assembler foi adaptado de um assembler para um processador MIPS feito pelo professor Eduardo Marossi.
