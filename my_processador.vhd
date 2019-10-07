@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 
 entity my_processador is
 	Generic ( DATA_WIDTH : natural := 8;
-				 ADD_SIZE: natural := 5;
+				 ADD_SIZE_BR: natural := 5;
 				 ADD_OUT_SIZE: natural := 10;
 				 DATA_PC_SIZE : natural := 20);
 	
@@ -32,16 +32,18 @@ end entity;
 
 architecture processadorArc of my_processador is
 
-	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to, sig_less_than, sig_mux_reg_escrita : std_logic;
+	signal sig_mux_pc, sig_mux_reg_ula, sig_mux_reg_sai, sig_we, sig_bigger_than, sig_iqual_to,
+			 sig_less_than, sig_mux_reg_escrita, sig_mux_in_bc : std_logic;
+			 
 	signal sig_func_ula : std_logic_vector(2 downto 0);
 	signal sig_pc : std_logic_vector(DATA_PC_SIZE-1 downto 0);
 	signal sig_data_a_br, sig_data_b_br, sig_saida_mux_reg_ula, sig_saida_mux_ula_in, sig_saida_ula : std_logic_vector(DATA_WIDTH-1 downto 0);
-	signal sig_reg_escrita : std_logic_vector(4 downto 0);
+	signal sig_reg_escrita, sig_mux_out_bc : std_logic_vector(4 downto 0);
 	signal sig_meio_ula_igual, sig_meio_ula_maior, sig_meio_ula_menor : std_logic;
 	
 begin
 	
-		ledSegundo <= sig_pc(7 downto 0);
+		--ledSegundo <= sig_pc(7 downto 0);
 
 		UC: entity work.my_uc
 			Port Map(
@@ -55,7 +57,8 @@ begin
 				muxRegSai => sig_mux_reg_sai,
 				weBC => sig_we,
 				readEnable => readEnableDecoder,
-				writeEnable => writeEnableDecoder);
+				writeEnable => writeEnableDecoder,
+				muxInBR => sig_mux_in_bc);
 				
 		-- Port map do program counter
 		-- O valor de imediato, caso seja utilizado sera de 10 bits
@@ -75,11 +78,19 @@ begin
 				sel => sig_mux_reg_ula,
 				Y => sig_saida_mux_reg_ula);
 				
+		MUX_IN_BR: entity work.my_mux
+			Generic Map(DATA_WIDTH=>ADD_SIZE_BR)
+			Port Map(
+				A => ROM_in(19 downto 15),
+				B => ROM_in(9 downto 5),
+				sel => sig_mux_in_bc,
+				Y => sig_mux_out_bc);
+				
 		BR: entity work.my_banco_reg
-			Generic Map(larguraDados=>DATA_WIDTH,larguraEndBancoRegs=>ADD_SIZE)
+			Generic Map(larguraDados=>DATA_WIDTH,larguraEndBancoRegs=>ADD_SIZE_BR)
 			Port Map(
 				clk => clk,
-				enderecoA => ROM_in(19 downto 15),
+				enderecoA => sig_mux_out_bc,
 				enderecoB => ROM_in(14 downto 10),
 				enderecoEscrita => ROM_in(19 downto 15),
 				dadosEscrita => sig_saida_mux_ula_in,

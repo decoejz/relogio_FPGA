@@ -54,7 +54,7 @@ architecture ulaArch of my_ula is
 	constant SUBTRAI : std_logic_vector(2 downto 0) := "010";
 	
 	--Retorna o valor de A sem alterar ele
-	constant RETB : std_logic_vector(2 downto 0) := "011";
+	constant RETA : std_logic_vector(2 downto 0) := "011";
 	
 	--Compara se A = B
 	constant COMPE : std_logic_vector(2 downto 0) := "100";
@@ -73,7 +73,10 @@ begin
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
 		  std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
-		  A when RETB,
+		  A when RETA,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & maior_que) when COMPB,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & igual_que) when COMPE,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
 		  (others=>'0') when others;
 	
 	MAIOR_QUE_select : with func select

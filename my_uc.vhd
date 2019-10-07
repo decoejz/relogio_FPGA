@@ -16,7 +16,8 @@ entity my_uc is
 		 muxRegSai : out std_logic; -- MUX que define para onde vai o resultado da ULA
 		 weBC : out std_logic; -- Habilita ou desabilita a escrita no banco de registradores
 		 readEnable : out std_logic; -- Habilita o read do decoder
-		 writeEnable : out std_logic -- Habilita o write do decoder
+		 writeEnable : out std_logic; -- Habilita o write do decoder
+		 muxInBR : out std_logic -- Habilita qual deve ser o endereco de entrada no banco de registradores
 		 
     );
 end entity;
@@ -90,6 +91,9 @@ begin
 	
 	writeEnable <= '1' when opcode=LOAD else
 						'0';
+						
+	muxInBR <= '1' when opcode=ADD else
+				  '0';
 						
 					 
 end architecture;
