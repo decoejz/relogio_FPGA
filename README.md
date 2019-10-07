@@ -32,15 +32,17 @@ Os perífecos do relógio são:
 
 ![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/io.png)
 
+### Mapa de memória
+
 ![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/mapamemoria.png)
 
 ## Modos de endereçamento 
 
-*IMAGEM ENDEREÇAMENTO*
-
 - Tamanho da instrução: 25 bits
 - Total de registradores no banco de registradores: 32
 - Total de instruções disponíveis: 32
+
+![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/enderacamento.png)
 
 ## Instruções Assembly
 
