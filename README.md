@@ -2,6 +2,21 @@
 
 - André Ejzenmesser, Gabriel Monteiro, Vitor Satyro
 
+* [Introdução](#introdução)
+  * [Top-Level VHDL](https://github.com/decoejz/relogio_FPGA/blob/master/relogio.vhd)
+* [Processador](#processador)
+* [I/O](#io)
+  * [Mapa de memória](#mapa-de-memória)
+* [Modos de endereçamento](#modos-de-endereçamento)
+* [Instruções Assembly](#instruções-assembly)
+* [Dicionário de endereços e registradores](#dicionário-de-endereços-e-registradores)
+* [Assembler](#assembler)
+* [Guia de Uso](#guia-de-uso)
+   * [Utilizando Assembler](#utilizando-assembler)
+   * [Programando relógio na placa](#programando-relógio-na-placa)
+   * [Utilizando o Relógio](#utilizando-o-relógio)
+
+
 ## Introdução
 
 O objetivo desse projeto é a criação de um relógio digital em VHDL. As funcionalidades que este relógio possui são:
@@ -21,7 +36,7 @@ A arquitetura do processador é uma arquitetura registrador-registrador. A ROM e
 
 ![alt text](https://github.com/decoejz/relogio_FPGA/blob/master/imagens/processador.png)
 
-## I/O
+## IO
 
 Os perífecos do relógio são:
 
@@ -87,3 +102,41 @@ Esse projeto também conta com um assembler em python que converte o código ass
 [ASSEMBLER](https://github.com/decoejz/relogio_FPGA/blob/master/python/assembler.py)
 
 [Código de máquina gerado](https://github.com/decoejz/relogio_FPGA/blob/master/mif/initROM.mif)
+
+## Guia de uso
+
+### Utilizando Assembler
+
+1. Para utilizar o assembler com seu próprio código é necessário criar um arquivo .asm nos padrões das instruções e endereços listados nesse projeto
+
+2. Para transformar o seu código assembly em código de máquina, rode o seguinte comando no terminal:
+```
+python3 assembler.py seu_arquivo_assembly.asm -mif > initROM.mif
+```
+3. O arquivo [initROM.mif](https://github.com/decoejz/relogio_FPGA) deste repositório é o responsável por fazer o relógio funcionar, se seu objeto é apenas reproduzir o projeto **NÃO** altere ele.
+
+### Programando relógio na placa
+
+1. No Windows ou no Linux abra o projeto com o arquivo [relogio.qpf](https://github.com/decoejz/relogio_FPGA/blob/master/relogio.qpf)
+
+2. Compile o projeto em `Compile all` ou `Ctrl-L`
+
+3. Conecte a FPGA no computador e na abra `programmer` configure-a em `Hardware Setup`
+
+4. Clique em `Run` e o relógio estará pronto para uso!
+
+### Utilizando o relógio
+
+- Os displays de 7 segmentos estarão na seguinte ordem HH:MM:SS na base de tempo de 1 segundo.
+
+- Para alterar a base de tempo, basta ativar a chave 17 (SW17) para ter uma base de 0.00001 segundo.
+
+- Para utilizar o modo 12horas, basta ativar a chave 2 (SW2). Note que agora ao lado dos segundos aparace um A(AM) ou P(PM).
+
+- Para ajustar as horas, ative a chave 1 (SW1) e utilize o botão 0 (KEY0) para unidade e o botão 1 (KEY1) para dezena.
+
+- Para ajustar os minutos, ative a chave 0 (SW1) e utilize o botão 0 (KEY0) para unidade e o botão 1 (KEY1) para dezena.
+
+__Dicas:__ 
+ - Para ajustar a hora pressione o botão por um período até que a mudança seja reproduzida no display de 7 segmentos. 
+ - **NÃO** é possível ajustar horas e minutos ao mesmo tempo, ou seja, não ativar as chaves 0 e 1 juntas.
