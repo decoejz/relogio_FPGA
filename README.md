@@ -57,9 +57,14 @@ Esse projeto também conta com um assembler em python que converte o código ass
 ## Links para arquivos
 
 [ASSEMBLER](https://github.com/decoejz/relogio_FPGA/blob/master/python/assembler.py)
+
 [Código ASSEMBLY](https://github.com/decoejz/relogio_FPGA/blob/master/assembly/assembly.asm)
+
 [Código de máquina](https://github.com/decoejz/relogio_FPGA/blob/master/mif/initROM.mif)
+
+
 [Top-Level VHDL](https://github.com/decoejz/relogio_FPGA/blob/master/relogio.vhd)
+
 
 
 
