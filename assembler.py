@@ -69,7 +69,7 @@ class Line_Assemble:
             else:
                 output = self.get_r_funct(instruct) +  self.get_register(args[1])+ '00000' +self.get_end(args[0])
         elif self.get_instruction_type() == 'r' and len(args) == 3:
-            output = self.get_r_funct(instruct) + self.get_register(args[0]) + self.get_end(args[1]) + self.get_end(args[2]) + '00000'
+            output = self.get_r_funct(instruct) + self.get_register(args[0]) + self.get_register(args[1]) + self.get_register(args[2]) + '00000'
         elif self.get_instruction_type() == 'i' and len(args) == 2:
             output = self.get_i_instruction(instruct) + self.get_register(args[0])  + '00000' +  self.get_immediate(args[1])
         elif self.get_instruction_type() == 'i' and len(args) == 3:
