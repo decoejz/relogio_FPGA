@@ -32,7 +32,7 @@ begin
     process(clk)
     begin
         if rising_edge(clk) then
-			if (reset='1') then
+			if (reset='1' AND writeEnable='1') then
 				contador <= 0;
             -- contador e comparador
             elsif contador >= divisor then

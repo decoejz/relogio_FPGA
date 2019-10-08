@@ -70,11 +70,11 @@ begin
 	--Salva a saida da ULA
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
-		  --std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
+		  std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
 		  A when RETA,
-		  --(std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & maior_que) when COMPB,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & maior_que) when COMPB,
 		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & igual_que) when COMPE,
-		  --(std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
+		  (std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
 		  (std_logic_vector(to_unsigned(0, DATA_WIDTH))) when others;
 	
 	--Salva a flag maior que
