@@ -135,7 +135,7 @@ python3 assembler.py seu_arquivo_assembly.asm -mif > initROM.mif
 
 - Para utilizar o modo 12horas, basta ativar a chave 2 (SW2). Note que agora ao lado dos segundos aparace um A(AM) ou P(PM).
 
-- Para ajustar as horas, ative a chave 1 (SW1) e utilize o botão 0 (KEY0) para unidade e o botão 1 (KEY1) para dezena.
+- Para ajustar as horas, ative a chave 1 (SW1) e utilize o botão 0 (KEY0) para ajustar a hora.
 
 - Para ajustar os minutos, ative a chave 0 (SW1) e utilize o botão 0 (KEY0) para unidade e o botão 1 (KEY1) para dezena.
 
