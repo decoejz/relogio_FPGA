@@ -11,16 +11,12 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-
-
-
 entity my_ula is
 	Generic ( DATA_WIDTH : natural := 8 );
 	
 	port
 	(
 		-- Entradas
-	--	clk : in std_logic;
 		A : in std_logic_vector (DATA_WIDTH-1 downto 0);
 		B : in std_logic_vector (DATA_WIDTH-1 downto 0);
 		
@@ -30,7 +26,7 @@ entity my_ula is
 		-- Saida quando tem soma ou subtracao
 		Y : out std_logic_vector (DATA_WIDTH-1 downto 0);
 		
-		-- Flag que indica comparacoes
+		-- Flags que indicam comparacoes
 		bigger_than : out std_logic;
 		iqual_to : out std_logic;
 		smaller_than : out std_logic
@@ -43,7 +39,7 @@ end my_ula;
 
 architecture ulaArch of my_ula is
 	signal maior_que, igual_que, menor_que : std_logic;
-	
+
 	--Soma A + B
 	constant SOMA : std_logic_vector(2 downto 0) := "000";
 	
@@ -66,10 +62,12 @@ architecture ulaArch of my_ula is
 	constant NADA : std_logic_vector(2 downto 0) := "111";
 begin
 
-	maior_que <= '1' when (A<B) else '0'; -- Compara se A > B
+	--Faz as comparacoes e salva nos signals
+	maior_que <= '1' when (A<B) else '0'; -- Compara se A < B
 	igual_que <= '1' when (A=B) else '0'; -- Compara se um botao esta ativado ou nao
-	menor_que <= '1' when (A>B) else '0'; -- Compara se A < B
+	menor_que <= '1' when (A>B) else '0'; -- Compara se A > B
 	
+	--Salva a saida da ULA
 	SAIDA : with func select
 	Y <= std_logic_vector(unsigned(A) + unsigned(B)) when SOMA,
 		  --std_logic_vector(unsigned(A) - unsigned(b)) when SUBTRAI,
@@ -79,14 +77,17 @@ begin
 		  --(std_logic_vector(to_unsigned(0, DATA_WIDTH - 1)) & menor_que) when COMPS,
 		  (std_logic_vector(to_unsigned(0, DATA_WIDTH))) when others;
 	
+	--Salva a flag maior que
 	MAIOR_QUE_select : with func select
 	bigger_than <= maior_que when COMPB,
 						'0' when others;
 	
+	--Salva a flag igual que
 	IGUAL_QUE_select : with func select
 	iqual_to <= igual_que when COMPE,
 					'0' when others;
 	
+	--Salva a flag menor que
 	MENOR_QUE_select : with func select
 	smaller_than <= menor_que when COMPS,
 						 '0' when others;

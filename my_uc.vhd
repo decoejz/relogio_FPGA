@@ -1,5 +1,5 @@
-
 library IEEE;
+
 use ieee.std_logic_1164.all;
 
 entity my_uc is
@@ -23,7 +23,7 @@ entity my_uc is
 end entity;
 
 architecture ucArc of my_uc is
-
+--Nomes de constantes
 --ADD R1, R2, R3 : R1=R2+R3
 constant ADD : std_logic_vector(4 downto 0) := "00000";
 
@@ -61,7 +61,8 @@ constant CMPe : std_logic_vector(4 downto 0) := "01010";
 constant CMPle : std_logic_vector(4 downto 0) := "01011";
 	
 begin
-
+	--Cada ponto de controle recebe um valor baseado na funcao enviada pelo opcode
+	
 	muxPc <= '1' when opcode = JMP else
 				jb when opcode = jbC else
 				je when opcode = JEC else
@@ -69,31 +70,31 @@ begin
 				'0';
 				
 	muxRegUla <= '1' when opcode=ADD OR opcode=LOAD OR opcode=LEA else
-					 '0';
+				'0';
 	
 	funcUla <= "000" when opcode=ADD OR opcode=ADDi else
-				  "001" when opcode=CMPi else
-				  "011" when opcode=LOAD OR opcode=LEAi else
-				  "100" when opcode=CMPe else
-				  "101" when opcode=CMPle else
-				  "111";
+				"001" when opcode=CMPi else
+				"011" when opcode=LOAD OR opcode=LEAi else
+				"100" when opcode=CMPe else
+				"101" when opcode=CMPle else
+				"111";
 				  
  	muxRegSai <= '1' when opcode=ADD OR opcode=ADDi OR
-								 opcode=CMPi OR opcode=LEAi OR opcode=CMPe OR opcode=CMPle else
-					 '0';
+						opcode=CMPi OR opcode=LEAi OR 
+						opcode=CMPe OR opcode=CMPle else
+					'0';
 					 
 	weBC <= '1' when opcode=ADD OR opcode=ADDi OR opcode=CMPi OR opcode=LEA OR
-						  opcode=LEAi OR opcode=CMPe OR opcode=CMPle else
-			  '0';
+					opcode=LEAi OR opcode=CMPe OR opcode=CMPle else
+			  	'0';
 			  
 	readEnable <= '1' when opcode=LEA else
-					  '0';
+					'0';
 	
 	writeEnable <= '1' when opcode=LOAD else
-						'0';
+					'0';
 						
 	muxInBR <= '1' when opcode=ADD else
-				  '0';
-						
-					 
+				'0';
+			 
 end architecture;

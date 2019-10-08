@@ -11,16 +11,13 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-
-
-
 entity my_registrador is	
 	port
 	(
-		entrada : in std_logic;
-		clk : in std_logic;
+		entrada : in std_logic; -- Entrada que sera salva pelo registrador
+		clk : in std_logic; -- Entrada do clock
 		
-		saida : out std_logic
+		saida : out std_logic -- Saida do registrador
 	);
 end my_registrador;
 
@@ -29,10 +26,9 @@ end my_registrador;
 -- Use Clause(s) (optional)
 architecture regArch of my_registrador is
 
-	
 begin
 	
-	process(clk)
+	process(clk) -- Cria um registrador, salvando a informacao de entrada
 	begin
 		if (rising_edge(clk)) then
 			saida <= entrada;

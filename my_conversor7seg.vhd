@@ -8,10 +8,10 @@ entity my_conversor7seg is
         -- Input ports
         -- Recebe o valor em binário do que será mostrado
         dadoHex  : in  std_logic_vector(3 downto 0);
-		  
-		  --Habilita a escrita no display
-		  enable : in std_logic;
-		  clk : in std_logic;
+		
+		--Habilita a escrita no display
+	    enable : in std_logic;
+		clk : in std_logic;
 
         -- Output ports
         -- Desenho do display em bits
@@ -20,21 +20,21 @@ entity my_conversor7seg is
 end entity;
 
 architecture comportamento of my_conversor7seg is
-   --
-   --       0
-   --      ---
-   --     |   |
-   --    5|   |1
-   --     | 6 |
-   --      ---
-   --     |   |
-   --    4|   |2
-   --     |   |
-   --      ---
-   --       3
-   --
+    --
+    --       0
+    --      ---
+    --     |   |
+    --    5|   |1
+    --     | 6 |
+    --      ---
+    --     |   |
+    --    4|   |2
+    --     |   |
+    --      ---
+    --       3
+    --
 
-  signal rascSaida7seg: std_logic_vector(6 downto 0);
+    signal rascSaida7seg: std_logic_vector(6 downto 0);
 
 begin
     rascSaida7seg <=    	"1000000" when (dadoHex="0000" AND enable='1') else ---0
@@ -49,15 +49,16 @@ begin
                             "0010000" when (dadoHex="1001" AND enable='1') else ---9
                             "0001000" when (dadoHex="1010" AND enable='1') else ---A
                             "0001100" when (dadoHex="1011" AND enable='1') else ---P
-									 "0111111" when (dadoHex="1100" AND enable='1') else ---'-'
-									 
+							"0111111" when (dadoHex="1100" AND enable='1') else ---'-'
                             "1111111"; -- Apaga todos segmentos.
-	 process (clk)
-	 begin
-		if (rising_edge(clk)) then
-		if(enable='1') then
-			saida7seg <= rascSaida7seg;
-			end if;
+    
+    process (clk) -- Cria um registrador que so altera seu valor quando estiver habilitada a escrita e for subida do clock
+	begin
+	    if (rising_edge(clk)) then
+            if(enable='1') then
+                saida7seg <= rascSaida7seg;
+            end if;
 		end if;
-	 end process;
+     end process;
+     
 end architecture;

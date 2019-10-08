@@ -11,22 +11,19 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-
-
-
 entity my_sw is
 	Generic ( 
-		TOTAL_SW : natural := 3;
-		DATA_SIZE : natural := 8
+		TOTAL_SW : natural := 3; --Numero total de chaves que serao utilizadas
+		DATA_SIZE : natural := 8 --Tamanho dos dados que devem ser enviados para o processador
 	);
 	
 	port
 	(
-		sw_in : in std_logic_vector(TOTAL_SW-1 downto 0);
-		enable : in std_logic;
+		sw_in : in std_logic_vector(TOTAL_SW-1 downto 0); -- Entrada das chaves que serao utilizados
+		enable : in std_logic; -- Habilita leitura das chaves
 		
-		indicaLed : out std_logic_vector(TOTAL_SW-1 downto 0);
-		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0)
+		indicaLed : out std_logic_vector(TOTAL_SW-1 downto 0); -- Led que indica a chave que esta ligada
+		sw_out : out std_logic_vector(DATA_SIZE-1 downto 0) -- Informacao lida que e enviada para o processador
 	);
 end my_sw;
 
@@ -39,11 +36,10 @@ architecture swArch of my_sw is
 	
 begin
 	
-	sig_sw <= ( std_logic_vector(to_unsigned(0, sw_out'length - sw_in'length)) & sw_in);
+	sig_sw <= ( std_logic_vector(to_unsigned(0, sw_out'length - sw_in'length)) & sw_in); -- Transforma a leitura num vetor de data size
 	
-	sw_out <= sig_sw when (enable = '1') else (others=>'Z');
-	
-	indicaLed <= sw_in;
+	sw_out <= sig_sw when (enable = '1') else (others=>'Z'); -- Envia informacao para o processador
+	indicaLed <= sw_in; -- Acende os leds
 	
 end swArch;
 
